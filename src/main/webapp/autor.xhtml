@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="/livros/css/style.css"></link>
+</h:head>
+
+<body>
+	<f:metadata>
+		<f:viewParam name="id" value="#{mba.id}" />
+		<f:event listener="#{mba.checkId}" type="preRenderView"></f:event>
+	</f:metadata>
+	<p:panel header="#{mba.autor.nome}">
+		<table cellspacing="20" width="100%">
+			<tr>
+				<td width="260px"><h:graphicImage value="/img/#{mba.autor.imagem}" width="250px"></h:graphicImage> </td>
+				<td><p>#{mba.autor.descricao}</p></td>
+			</tr>
+		</table>
+	</p:panel>
+	<br/>
+	<p:panel header="Livros de #{mba.autor.nome}">
+		<p:dataTable value="#{mba.livros}" var="livro">
+			<p:column headerText="Capa" style="width:110px;">
+				<h:graphicImage value="img/#{livro.imagem}" width="100px"></h:graphicImage>
+			</p:column>
+			<p:column headerText="Nome">
+				<a href="livro.jsf?id=#{livro.id}"><h:outputText
+						value="#{livro.nome}"></h:outputText></a>
+			</p:column>
+		</p:dataTable>
+	</p:panel>
+	<br />
+	<p:button href="index.jsf" value="Voltar"></p:button>
+</body>
+</html>

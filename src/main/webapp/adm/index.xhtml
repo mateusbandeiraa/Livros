@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="/livros/css/style.css"></link>
+	<style>
+.autorText {
+	text-align: right;
+}
+
+.ui-panelgrid-cell {
+	width: 50%;
+}
+
+.ui-column-filter {
+	width: 95% !important;
+	max-width: 300px;
+}
+</style>
+</h:head>
+
+<h:body>
+	<p:panel header="Painel de Controle">
+		<p:button value="Cadastro de Livros e Autores" href="cadastro.jsf" />
+		<p:button value="Cadastro de Usuários" href="cadastroUser.jsf" />
+		<p:commandButton value="Logout" actionListener="#{mbu.logout}"
+			style="position: absolute;left: 100%;transform: translate(-150%);" />
+		<br />
+		<br />
+		<p:panelGrid columns="2">
+
+			<p:panel header="Lista de Autores">
+				<h:form id="tabelaAutores">
+					<p:dataTable value="#{mb.autores}" var="autor" paginator="true"
+						rows="5" emptyMessage="Nenhum autor encontrado">
+						<p:column headerText="id" style="width:50px;" sortBy="#{autor.id}">
+							<h:outputText value="#{autor.id}" />
+						</p:column>
+						<p:column headerText="Nome" sortBy="#{autor.nome}"
+							filterBy="#{autor.nome}" filterMatchMode="contains">
+							<a href="autor.jsf?id=#{autor.id}"><h:outputText
+									value="#{autor.nome}" /></a>
+						</p:column>
+						<p:column headerText="Apagar" style="width:50px;">
+							<h:form>
+								<p:commandButton icon="ui-icon-trash" action="#{mbc.apagaAutor}"
+									update=":tabelaAutores, :tabelaLivros">
+									<f:param name="autor" value="#{autor}" />
+								</p:commandButton>
+							</h:form>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:panel>
+			<p:panel header="Lista de Livros">
+				<h:form id="tabelaLivros">
+					<p:dataTable value="#{mb.livros}" var="livro"
+						emptyMessage="Nenhum livro encontrado.">
+						<p:column headerText="id" style="width:50px;" sortBy="#{livro.id}">
+							<h:outputText value="#{livro.id}" />
+						</p:column>
+						<p:column headerText="Nome" sortBy="#{livro.nome}"
+							filterBy="#{livro.nome}" filterMatchMode="contains">
+							<a href="livro.jsf?id=#{livro.id}"> <h:outputText
+									value="#{livro.nome}" /></a>
+						</p:column>
+						<p:column headerText="Autor" styleClass="autorText"
+							sortBy="#{livro.autor.nome}">
+							<a href="autor.jsf?id=#{livro.autor.id}"> <h:outputText
+									value="#{livro.autor.nome}" /></a>
+						</p:column>
+						<p:column headerText="Editora" sortBy="#{livro.editora}">
+							<h:outputText value="#{livro.editora}" />
+						</p:column>
+						<p:column headerText="ISBN" sortBy="#{livro.ISBN}" style="width:150px">
+							<h:outputText value="#{livro.isbn}" />
+						</p:column>
+						<p:column headerText="Apagar" style="width:50px;">
+							<h:form>
+								<center>
+									<p:commandButton icon="ui-icon-trash"
+										action="#{mbc.apagaLivro}"
+										update=":tabelaAutores, :tabelaLivros">
+										<f:param name="livro" value="#{livro}" />
+									</p:commandButton>
+								</center>
+							</h:form>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:panel>
+		</p:panelGrid>
+		<p:panel header="Lista de Usuários">
+			<p:dataTable id="tabelaUsuarios" value="#{mbu.usuarios}"
+				var="usuario" paginator="true" rows="5"
+				emptyMessage="Nenhum usuário encontrado">
+				<p:column headerText="id" style="width:50px;">
+					<h:outputText value="#{usuario.id}" />
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{usuario.nome}" />
+				</p:column>
+				<p:column headerText="E-mail">
+					<h:outputText value="#{usuario.email}" />
+				</p:column>
+				<p:column headerText="Perfil">
+					<h:outputText value="#{usuario.perfil}" />
+				</p:column>
+				<p:column headerText="Apagar" style="width:50px;">
+					<h:form id="apagaUserForm">
+						<p:commandButton icon="ui-icon-trash" action="#{mbu.apagaUsuario}"
+							update=":tabelaUsuarios">
+							<f:param name="usuario" value="#{usuario}" />
+						</p:commandButton>
+						<p:growl></p:growl>
+					</h:form>
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</p:panel>
+	<br />
+</h:body>
+</html>

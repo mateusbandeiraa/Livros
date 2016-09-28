@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="/livros/css/style.css"></link>
+</h:head>
+
+<h:body>
+	<p:panel header="Lista de Autores">
+		<p:dataTable value="#{mb.autores}" var="autor" rows="3" paginator="true">
+			<p:column headerText="Foto" style="width:260px;">
+				<h:graphicImage value="img/#{autor.imagem}" width="250px"></h:graphicImage>
+			</p:column>
+			<p:column headerText="Nome">
+
+				<a href="autor.jsf?id=#{autor.id}"><h2>
+						<h:outputText value="#{autor.nome}" />
+					</h2> </a>
+				<p>#{autor.descricao}</p>
+			</p:column>
+		</p:dataTable>
+	</p:panel>
+	<br />
+	<p:button href="login.jsf" value="Fazer login"></p:button>
+</h:body>
+</html>
