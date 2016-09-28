@@ -17,7 +17,7 @@ import persistence.AutorDao;
 import persistence.LivroDao;
 import persistence.UsuarioDao;
 import persistence.VotoDao;
-
+//teste
 @ManagedBean(name = "mb")
 @RequestScoped
 public class LivroManagerBean {
