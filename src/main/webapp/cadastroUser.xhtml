@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<link rel="stylesheet" type="text/css" href="/livros/css/style.css"></link>
+	<style>
+.ui-panelgrid td, .ui-panelgrid tr {
+	background: transparent !important;
+}
+</style>
+</h:head>
+
+<body>
+	<p:panel header="Cadastro de Usuários" class="panelCadastro">
+		<h:form id="form1" enctype="multipart/form-data">
+			<table cellspacing="20" width="100%">
+				<tr>
+					<td style="width: 150px"><h:outputLabel for="nomeUsuario"
+							value="Nome do Usuário"></h:outputLabel></td>
+					<td><p:inputText id="nomeUsuario" value="#{mbu.usuario.nome}"
+							required="true"></p:inputText></td>
+				</tr>
+				<tr>
+					<td style="width: 150px"><h:outputLabel for="email"
+							value="E-mail"></h:outputLabel></td>
+					<td><p:inputText id="email" type="email" value="#{mbu.usuario.email}"
+							required="true" /> <br /></td>
+				</tr>
+				<tr>
+					<td style="width: 150px"><h:outputLabel for="senha"
+							value="Senha"></h:outputLabel></td>
+					<td><p:inputText id="senha" type="password" value="#{mbu.usuario.senha}"
+							required="true" /> <br /></td>
+				</tr>
+			</table>
+			<p:commandButton value="Cadastrar" action="#{mbu.cadastrar}" ajax="true"></p:commandButton>
+			
+		</h:form>
+		<p:messages></p:messages>
+	</p:panel>
+	<p:button href="index.jsf" value="Voltar" style="margin-left:15px;"></p:button>
+</body>
+</html>

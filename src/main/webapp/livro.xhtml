@@ -20,8 +20,10 @@
 		<table cellspacing="20">
 			<tr>
 				<td>
-				<center><h:outputText value="#{mb.media} estrelas" id="votacao"/></center><br/>
+				<center><h:outputText value="#{mb.media} estrelas" id="votacao"/><br/>
+				<h:outputText value="#{mb.nVotos} votos" id="nVotos"/></center><br/>
 				<h:graphicImage value="/img/#{mb.livro.imagem}" width="150"></h:graphicImage>
+				<div id="campoVotacao" style="visibility:#{mb.podeVotar()};">
 				<h:form id="form1">
 				<center>
 				<p:selectOneMenu id="voto" value="#{mb.voto}">
@@ -32,8 +34,9 @@
 				<f:selectItem itemValue="5" itemLabel="5 estrelas"/>
 				</p:selectOneMenu>
 				<br/>
-				<p:commandButton value="Votar" action="#{mb.votar}" update=":votacao,:form1"/> </center>
+				<p:commandButton value="Votar" action="#{mb.votar}" update=":votacao,:nVotos ,:form1"/> </center>
 				</h:form>
+				</div>
 				</td>
 				<td>#{mb.livro.descricao}</td>
 			</tr>

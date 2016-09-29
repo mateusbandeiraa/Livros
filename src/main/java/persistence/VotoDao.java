@@ -7,7 +7,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import entity.Autor;
 import entity.Livro;
 import entity.Usuario;
 import entity.Voto;
@@ -21,7 +20,11 @@ public class VotoDao {
 	public void create(Voto v) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		transaction = session.beginTransaction();
-		session.saveOrUpdate(v);
+		if (findByUserNBook(v.getUsuario().getId(), v.getLivro().getId()) == null) {
+			session.save(v);
+		} else {
+			session.update(v);
+		}
 		transaction.commit();
 		session.close();
 	}
@@ -87,12 +90,18 @@ public class VotoDao {
 		for (Voto v : votos) {
 			media += v.getRate();
 		}
-		
-		media = (media / votos.size())*10;
+
+		media = (media / votos.size()) * 10;
 		media = (double) Math.round(media);
 		media = media / 10;
 
 		return media;
+
+	}
+
+	public Integer getNVotos(Livro l) {
+		List<Voto> votos = findByBook(l.getId());
+		return votos.size();
 
 	}
 }

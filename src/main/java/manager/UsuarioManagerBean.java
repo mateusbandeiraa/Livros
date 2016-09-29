@@ -54,6 +54,8 @@ public class UsuarioManagerBean {
 	public void cadastrar() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		try {
+			if(usuario.getPerfil() == null)
+				usuario.setPerfil("usu");
 			new UsuarioDao().create(usuario);
 			fc.addMessage("form1", new FacesMessage("Usuário cadastrado com sucesso"));
 		} catch (Exception ex) {
@@ -85,7 +87,11 @@ public class UsuarioManagerBean {
 				fc.addMessage("form1", new FacesMessage("Usuário Autenticado"));
 				session.setAttribute("logado", true);
 				session.setAttribute("userId", u.getId());
+				if(u.getPerfil().equals("adm")){
 				fc.getExternalContext().redirect("adm/index.jsf");
+				}else{
+					fc.getExternalContext().redirect("./index.jsf");
+				}
 			} else {
 				fc.addMessage("form1", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Senha incorreta.", null));
 				session.setAttribute("logado", null);

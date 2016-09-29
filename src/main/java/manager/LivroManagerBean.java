@@ -27,6 +27,7 @@ public class LivroManagerBean {
 	private List<Autor> autores;
 	private Double media;
 	private Integer voto;
+	private Integer nVotos;
 
 	@PostConstruct
 	public void init() {
@@ -86,6 +87,27 @@ public class LivroManagerBean {
 
 	public void setVoto(Integer voto) {
 		this.voto = voto;
+	}
+	
+	public Integer getnVotos() {
+		VotoDao vd = new VotoDao();
+		nVotos = vd.getNVotos(livro);
+		return nVotos;
+	}
+
+	public void setnVotos(Integer nVotos) {
+		this.nVotos = nVotos;
+	}
+
+	public String podeVotar(){
+		FacesContext fc = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+		System.out.println(session.getAttribute("-----userId------"));
+		if (session.getAttribute("userId") == null){
+			return "visible";
+		}else{
+			return "hidden";
+		}
 	}
 
 	public void votar(){
