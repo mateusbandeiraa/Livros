@@ -18,13 +18,25 @@ public class VotoDao {
 	Criteria criteria;
 
 	public void create(Voto v) {
+		//Verifica se o usuario já votou nesse livro. Evita votos duplicados.
+		if (findByUserNBook(v.getUsuario().getId(), v.getLivro().getId()) != null) {
+			v.setId(findByUserNBook(v.getUsuario().getId(), v.getLivro().getId()).getId());
+			System.out.println("Entrou no lugar certo");
+			System.out.println(v);
+			update(v);
+			return;
+		}		
 		session = HibernateUtil.getSessionFactory().openSession();
 		transaction = session.beginTransaction();
-		if (findByUserNBook(v.getUsuario().getId(), v.getLivro().getId()) == null) {
-			session.save(v);
-		} else {
-			session.update(v);
-		}
+		session.save(v);
+		transaction.commit();
+		session.close();
+	}
+	
+	public void update(Voto v){
+		session = HibernateUtil.getSessionFactory().openSession();
+		transaction = session.beginTransaction();
+		session.update(v);
 		transaction.commit();
 		session.close();
 	}

@@ -43,8 +43,8 @@ public class Voto implements Serializable{
 		return id;
 	}
 
-	public void setId(Integer idVenda) {
-		this.id = idVenda;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Livro getLivro() {

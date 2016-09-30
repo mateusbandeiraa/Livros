@@ -102,8 +102,7 @@ public class LivroManagerBean {
 	public String podeVotar(){
 		FacesContext fc = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
-		System.out.println(session.getAttribute("-----userId------"));
-		if (session.getAttribute("userId") == null){
+		if (session.getAttribute("userId") != null){
 			return "visible";
 		}else{
 			return "hidden";
