@@ -8,9 +8,21 @@
 
 <h:head>
 	<link rel="stylesheet" type="text/css" href="../css/style.css"></link>
-</h:head>
 
-<body>
+	<script type="text/javascript">
+		function adjustISBN() {
+			var caixa = PF('caixaISBN');
+			var mask = PF('isbn');
+			if (caixa.isChecked()) {
+				mask.jq.mask('9-9999-9999-9');
+				mask.jq.focus();
+			} else {
+				mask.jq.mask('999-9-9999-9999-9');
+				mask.jq.focus();
+			}
+		}
+	</script>
+</h:head><body>
 	<f:metadata>
 		<f:viewParam name="id" value="#{mb.livro.id}"></f:viewParam>
 		<f:viewParam name="id" value="#{mbe.livro.id}" />
@@ -60,8 +72,10 @@
 				<tr>
 					<td style="width: 150px"><h:outputLabel for="isbn"
 							value="ISBN"></h:outputLabel></td>
-					<td><p:inputMask id="isbn" value="#{mbe.livro.isbn}"
-							required="true" mask="999-9-99-999999-9" size="17"></p:inputMask></td>
+					<td><p:inputMask widgetVar="isbn" id="isbn" value="#{mbe.livro.isbn}"
+							required="true" mask="999-9-99-999999-9" size="17"></p:inputMask>
+<p:selectBooleanCheckbox widgetVar="caixaISBN" onchange="adjustISBN()" style="padding-left:10px; padding-right:5px;"/>
+<p:outputLabel value="ISBN-10"></p:outputLabel></td>
 				</tr>
 				<tr>
 					<td style="width: 150px"><h:outputLabel for="editora"
