@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
-
+//4tg5g6yh6h
 @Entity
 public class Autor implements Serializable{
 	
