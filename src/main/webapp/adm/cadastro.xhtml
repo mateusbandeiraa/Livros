@@ -13,6 +13,7 @@
 	background: transparent !important;
 }
 </style>
+	<script type="text/javascript" src="../js/scripts.js"></script>
 </h:head>
 
 <body>
@@ -44,8 +45,13 @@
 				<tr>
 					<td style="width: 150px"><h:outputLabel for="isbn"
 							value="ISBN"></h:outputLabel></td>
-					<td><p:inputMask id="isbn" value="#{mbc.livro.isbn}"
-							required="true" mask="999-9-99-999999-9" size="17"></p:inputMask></td>
+					<td><p:inputMask id="isbn" widgetVar="isbn"
+							value="#{mbe.livro.isbn}" required="true"
+							mask="999-9-99-999999-9" size="17" autoClear="false" /> 
+							<p:selectOneRadio widgetVar="RadioISBN" onchange="adjustISBN()" value="1">
+							<f:selectItem itemLabel="ISBN-10" itemValue="0" id="radio10" />
+							<f:selectItem itemLabel="ISBN-13" itemValue="1" id="radio13" />
+						</p:selectOneRadio></td>
 				</tr>
 				<tr>
 					<td style="width: 150px"><h:outputLabel for="editora"

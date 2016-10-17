@@ -88,6 +88,19 @@ public class EditManagerBean {
 	public void setFotoAutor(UploadedFile fotoAutor) {
 		this.fotoAutor = fotoAutor;
 	}
+	
+	public Integer getISBNType(){
+		try {
+			String isbn = livro.getIsbn().replaceAll("[^\\d.]",""); //remove os traços
+			if (isbn.length() > 10){
+				return 1;
+			}else{
+				return 0;
+			}
+		} catch (Exception e) {
+			return 1;
+		}
+	}
 
 	public void editarLivro() {
 		FacesContext fc = FacesContext.getCurrentInstance();
