@@ -27,7 +27,7 @@ public class Livro implements Serializable {
 	@Column
 	@Type(type = "text")
 	private String descricao;
-	@Column(length = 17, unique=true)
+	@Column(length = 17, unique = true)
 	private String isbn;
 	@Column
 	private String editora;
@@ -36,15 +36,16 @@ public class Livro implements Serializable {
 
 	@ManyToOne
 	private Autor autor;
-	
+
 	@OneToMany(mappedBy = "livro", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Voto> votos;
-	
+
+	private transient Double mediaVotos;
 
 	public Livro() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Livro(Integer id, String nome, String descricao, String isbn, String editora, String imagem, Autor autor) {
 		super();
 		this.id = id;
@@ -56,7 +57,8 @@ public class Livro implements Serializable {
 		this.autor = autor;
 	}
 
-	public Livro(Integer id, String nome, String descricao, String isbn, String editora, String imagem, Autor autor, List<Voto> votos) {
+	public Livro(Integer id, String nome, String descricao, String isbn, String editora, String imagem, Autor autor,
+			List<Voto> votos) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -137,7 +139,13 @@ public class Livro implements Serializable {
 	public void setVotos(List<Voto> votos) {
 		this.votos = votos;
 	}
-	
-	
+
+	public Double getMediaVotos() {
+		return mediaVotos;
+	}
+
+	public void setMediaVotos(Double mediaVotos) {
+		this.mediaVotos = mediaVotos;
+	}
 
 }

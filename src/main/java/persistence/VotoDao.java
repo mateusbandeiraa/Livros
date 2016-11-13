@@ -106,7 +106,7 @@ public class VotoDao {
 		media = (media / votos.size()) * 10;
 		media = (double) Math.round(media);
 		media = media / 10;
-
+		
 		return media;
 
 	}

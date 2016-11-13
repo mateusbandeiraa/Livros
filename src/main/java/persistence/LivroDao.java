@@ -1,5 +1,6 @@
 package persistence;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.Criteria;

@@ -94,12 +94,7 @@
 							<th>Livro</th>
 						</tr>					
 					</thead>
-					<tbody>
-					<tr>
-					<td>1</td>
-					<td>O Senhor dos Anéis</td>
-					</tr>
-					</tbody>
+					<!-- resgatar do MB -->
 				</table></div>
 		</div>
 	</div>
