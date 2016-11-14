@@ -26,6 +26,9 @@
 		});
 	});
 </script>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<jsp:useBean id="mb" class="manager.HomeManagerBean"></jsp:useBean>
 </head>
 <body>
 	<!-- CABEÇALHO -->
@@ -52,7 +55,7 @@
 		</div>
 	</div>
 	<!-- CORPO -->
-	<div class="col-sm-offset-1 col-md-2">
+	<div class="col-md-3">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Top autores</div>
@@ -63,13 +66,13 @@
 						<tr>
 							<th>#</th>
 							<th>Autor</th>
-						</tr>					
+						</tr>
 					</thead>
 					<tbody>
-					<tr>
-					<td>1</td>
-					<td>J. R. R. Tolkien</td>
-					</tr>
+						<tr>
+							<td>1</td>
+							<td>J. R. R. Tolkien</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -82,20 +85,32 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-2">
+	<div class="col-md-3">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Top Livros</div>
 			</div>
-			<div class="panel-body"><table class="table table-hover">
+			<div class="panel-body">
+				<table class="table table-hover">
 					<thead>
 						<tr>
 							<th>#</th>
 							<th>Livro</th>
-						</tr>					
+							<th>Nota</th>
+						</tr>
 					</thead>
-					<!-- resgatar do MB -->
-				</table></div>
+					<c:forEach items="${mb.topLivros}" var="livro" varStatus="loop">
+						<tr>
+							<td>${loop.count}</td>
+							<td>${livro.nome}</td>
+							<td><fmt:formatNumber type="number" maxIntegerDigits="1"
+									maxFractionDigits="1" value="${livro.mediaVotos}" /><span
+								class="glyphicon glyphicon-star" style="padding-left: 5px;"></span></td>
+
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
 		</div>
 	</div>
 	<div class="col-md-1"></div>

@@ -13,10 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
+
 //4tg5g6yh6h
 @Entity
-public class Autor implements Serializable{
-	
+public class Autor implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
@@ -29,6 +30,8 @@ public class Autor implements Serializable{
 	private String descricao;
 	@Column
 	private String imagem;
+	@Column
+	private Integer views;
 
 	@OneToMany(mappedBy = "autor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Livro> livros;
@@ -38,13 +41,15 @@ public class Autor implements Serializable{
 			livros = new ArrayList<Livro>();
 		livros.add(l);
 	}
-	public void removeLivro(Livro l){
+
+	public void removeLivro(Livro l) {
 		try {
 			livros.remove(l);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 	public Autor() {
 		// TODO Auto-generated constructor stub
 	}
@@ -100,6 +105,14 @@ public class Autor implements Serializable{
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
+	}
+
+	public Integer getViews() {
+		return views;
+	}
+
+	public void setViews(Integer views) {
+		this.views = views;
 	}
 
 	public List<Livro> getLivros() {

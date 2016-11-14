@@ -1,0 +1,9 @@
+.col-center {
+	float: none;
+	margin: 0 auto;
+}
+
+.rate {
+	margin: auto;
+	text-align: center;
+}

@@ -95,7 +95,7 @@
 
 
 	<build>
-		<finalName>finalName</finalName>
+		<finalName>livros</finalName>
 		<plugins>
 
 			<plugin>

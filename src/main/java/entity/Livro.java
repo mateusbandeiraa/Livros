@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
 
+import persistence.VotoDao;
+
 @Entity
 public class Livro implements Serializable {
 
@@ -33,6 +35,8 @@ public class Livro implements Serializable {
 	private String editora;
 	@Column
 	private String imagem;
+	@Column
+	private Integer views;
 
 	@ManyToOne
 	private Autor autor;
@@ -72,8 +76,7 @@ public class Livro implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Livro [id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", isbn=" + isbn + ", editora="
-				+ editora + "]";
+		return "Livro [id=" + id + ", nome=" + nome + ", isbn=" + isbn + ", editora=" + editora + "]";
 	}
 
 	public Integer getId() {
@@ -124,6 +127,14 @@ public class Livro implements Serializable {
 		this.imagem = imagem;
 	}
 
+	public Integer getViews() {
+		return views;
+	}
+
+	public void setViews(Integer views) {
+		this.views = views;
+	}
+
 	public Autor getAutor() {
 		return autor;
 	}
@@ -141,6 +152,7 @@ public class Livro implements Serializable {
 	}
 
 	public Double getMediaVotos() {
+		mediaVotos = new VotoDao().getMediaLivro(this);
 		return mediaVotos;
 	}
 
