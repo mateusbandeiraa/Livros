@@ -27,6 +27,7 @@
 </script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <link rel="stylesheet" href="css/style.css">
 <%@page import="entity.*, persistence.*"%>
 <%
@@ -39,6 +40,8 @@
 <title><%=l.getNome()%></title>
 </head>
 <body>
+	<!-- NAVBAR -->
+	<t:navbar></t:navbar>
 	<!-- CONTEÚDO -->
 	<div class="col-sm-7 col-center">
 		<div class="panel panel-primary">

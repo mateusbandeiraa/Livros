@@ -13,6 +13,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<link rel="stylesheet" href="css/style.css">
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -23,6 +24,9 @@
 		$('#search-field').blur(function() {
 			$('#col-search').addClass("col-sm-offset-4 col-sm-4");
 			$('#col-search').removeClass("col-sm-offset-3 col-sm-6");
+		});
+		$('.clickable-row').click(function() {
+			window.location = $(this).data('href');
 		});
 	});
 </script>
@@ -100,7 +104,7 @@
 						</tr>
 					</thead>
 					<c:forEach items="${mb.topLivros}" var="livro" varStatus="loop">
-						<tr>
+						<tr class="clickable-row" data-href='./livro.jsp?id=${livro.id}'>
 							<td>${loop.count}</td>
 							<td>${livro.nome}</td>
 							<td><fmt:formatNumber type="number" maxIntegerDigits="1"
