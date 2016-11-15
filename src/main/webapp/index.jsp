@@ -18,7 +18,7 @@
 <script type="text/javascript" src="./js/scripts.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#search-field').focus(function() {
+		/* $('#search-field').focus(function() {
 			$('#search-group').css("width", "100% ");
 		});
 		$('#search-field').hover(function() {
@@ -28,7 +28,7 @@
 		});
 		$('#search-field').blur(function() {
 			$('#search-group').css("width", "50%");
-		});
+		}); */
 	});
 </script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
