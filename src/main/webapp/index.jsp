@@ -63,7 +63,7 @@
 		</div>
 	</div>
 	<!-- CORPO -->
-	<div class="col-md-3">
+	<div class="col-md-3 hidden-sm hidden-xs">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Top autores</div>
@@ -86,14 +86,14 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-6 col-sm-9">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Conteúdo</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-sm-3">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Top Livros</div>
