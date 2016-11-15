@@ -1,12 +1,17 @@
-function adjustISBN() {
-			var radio = PF('RadioISBN').getJQ().find(':checked').val();
-			var mask = PF('isbn');
-			if (radio == "0") {
-				mask.jq.mask('9-9999-9999-9');
-				mask.jq.focus();
-			} else {
-				var anterior = mask.jq.val();
-				mask.jq.mask('999-9-9999-9999-9');
-				mask.jq.focus();
-			}
-		}
+$(document).ready(function() {
+		$('#search-field').focus(function() {
+			$('#search-group').css("width", "100% ");
+		});
+		$('#search-field').hover(function() {
+			$('#search-group').css("width", "100%");
+		}, function() {
+			$('#search-group').css("width", "50%");
+		});
+		$('#search-field').blur(function() {
+			$('#search-group').css("width", "50%");
+		});
+
+		$('.clickable-row').click(function() {
+			window.location = $(this).data('href');
+		});
+	});

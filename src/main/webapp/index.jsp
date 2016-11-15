@@ -15,6 +15,7 @@
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <link rel="stylesheet" href="css/style.css">
 
+<script type="text/javascript" src="./js/scripts.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#search-field').focus(function() {
@@ -27,10 +28,6 @@
 		});
 		$('#search-field').blur(function() {
 			$('#search-group').css("width", "50%");
-		});
-
-		$('.clickable-row').click(function() {
-			window.location = $(this).data('href');
 		});
 	});
 </script>

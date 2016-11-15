@@ -13,6 +13,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+	<script type="text/javascript" src="./js/scripts.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
@@ -56,23 +57,23 @@
 					<div class="col-md-3">
 						<div class="thumbnail">
 							<img alt="Capa do Livro" src="img/Perdido em Marte.jpg">
-							<div class="caption"></div>
-							<h3 class="rate-star">
-								<%
-									Integer rate = l.getMediaVotos().intValue();
-								%>
-								<c:forEach begin="1" end="<%=rate%>">
-									<span class="glyphicon glyphicon-star"></span>
-								</c:forEach>
+							<div class="caption">
+								<h3 class="rate-star">
+									<%
+										Integer rate = l.getMediaVotos().intValue();
+									%>
+									<c:forEach begin="1" end="<%=rate%>">
+										<span class="glyphicon glyphicon-star"></span>
+									</c:forEach>
 
-							</h3>
-							<h2 class="rate-number">
-								<span id="rate-color"> <fmt:formatNumber type="number"
-										maxIntegerDigits="1" maxFractionDigits="1"
-										value="<%=l.getMediaVotos()%>" />
-								</span>
-							</h2>
-
+								</h3>
+								<h2 class="rate-number">
+									<span id="rate-color"> <fmt:formatNumber type="number"
+											maxIntegerDigits="1" maxFractionDigits="1"
+											value="<%=l.getMediaVotos()%>" />
+									</span>
+								</h2>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-6">
