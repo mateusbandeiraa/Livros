@@ -13,18 +13,6 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#search-field').focus(function() {
-			$('#col-search').addClass("col-sm-offset-3 col-sm-6");
-			$('#col-search').removeClass("col-sm-offset-4 col-sm-4");
-		});
-		$('#search-field').blur(function() {
-			$('#col-search').addClass("col-sm-offset-4 col-sm-4");
-			$('#col-search').removeClass("col-sm-offset-3 col-sm-6");
-		});
-	});
-</script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
@@ -37,6 +25,21 @@
 		l = new LivroDao().findByCode(id);
 	}
 %>
+<script type="text/javascript">
+	$(document).ready(function() {
+		if (
+<%=l.getMediaVotos()%>
+	<= 2) {
+			$('#rate-color').addClass('label label-danger');
+		} else if (
+<%=l.getMediaVotos()%>
+	< 4) {
+			$('#rate-color').addClass('label label-warning');
+		} else {
+			$('#rate-color').addClass('label label-success');
+		}
+	});
+</script>
 <title><%=l.getNome()%></title>
 </head>
 <body>
@@ -53,7 +56,7 @@
 					<div class="thumbnail">
 						<img alt="Capa do Livro" src="img/Perdido em Marte.jpg">
 						<div class="caption"></div>
-						<h3 class="rate">
+						<h3 class="rate-star">
 							<%
 								Integer rate = l.getMediaVotos().intValue();
 							%>
@@ -62,18 +65,36 @@
 							</c:forEach>
 
 						</h3>
-						<h2 class="rate">
-							<fmt:formatNumber type="number" maxIntegerDigits="1"
-								maxFractionDigits="1" value="<%=l.getMediaVotos()%>" />
-							<br />
+						<h2 class="rate-number">
+							<span id="rate-color"> <fmt:formatNumber type="number"
+									maxIntegerDigits="1" maxFractionDigits="1"
+									value="<%=l.getMediaVotos()%>" />
+							</span>
 						</h2>
 
 					</div>
 				</div>
-				<div class="col-sm-9">
+				<div class="col-sm-6">
 					<h2><%=l.getNome()%></h2>
 					<h3 style="margin-top: 0;"><%=l.getAutor().getNome()%></h3>
 					<p><%=l.getDescricao()%></p>
+				</div>
+				<div class="col-sm-3">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h3 class="title3">
+								<span class="glyphicon glyphicon-user"></span> Sobre o autor
+							</h3>
+						</div>
+						<div class="panel-body">
+							<div class="thumbnail" style="margin-bottom: 10px;">
+								<img alt="Foto do autor" src="img/Andy Weir.jpg">
+							</div>
+							<h3><%=l.getAutor().getNome()%></h3>
+							<p><%=l.getAutor().getDescricao() %></p>
+							<a href="./autor.jsp?id=<%=l.getAutor().getId()%>" style="text-align: right;"><h4>Saiba mais...</h4></a>
+						</div>
+					</div>
 				</div>
 			</div>
 

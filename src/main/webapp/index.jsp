@@ -18,13 +18,17 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#search-field').focus(function() {
-			$('#col-search').addClass("col-sm-offset-3 col-sm-6");
-			$('#col-search').removeClass("col-sm-offset-4 col-sm-4");
+			$('#search-group').css("width", "100%");
+		});
+		$('#search-field').hover(function() {
+			$('#search-group').css("width", "100%");
+		}, function() {
+			$('#search-group').css("width", "50%");
 		});
 		$('#search-field').blur(function() {
-			$('#col-search').addClass("col-sm-offset-4 col-sm-4");
-			$('#col-search').removeClass("col-sm-offset-3 col-sm-6");
+			$('#search-group').css("width", "50%");
 		});
+
 		$('.clickable-row').click(function() {
 			window.location = $(this).data('href');
 		});
@@ -40,10 +44,10 @@
 		<div class="container">
 			<h1>Levros</h1>
 			<h4>O menor banco de dados de livros na internet.</h4>
-			<div class="col-sm-offset-4 col-sm-4" id="col-search">
+			<div class="col-sm-offset-3 col-sm-6" id="col-search">
 				<form>
 					<div class="form-group">
-						<div class="input-group">
+						<div class="input-group" id="search-group">
 
 							<input type="text" class="form-control" placeholder="Buscar"
 								id="search-field">

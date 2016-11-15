@@ -159,5 +159,10 @@ public class Livro implements Serializable {
 	public void setMediaVotos(Double mediaVotos) {
 		this.mediaVotos = mediaVotos;
 	}
+	
+	public static void main(String[] args) {
+		Livro l = new Livro();
+		l.setId(1);
+	}
 
 }

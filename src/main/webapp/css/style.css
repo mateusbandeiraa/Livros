@@ -3,11 +3,27 @@
 	margin: 0 auto;
 }
 
-.rate {
+.rate-star {
 	margin: auto;
 	text-align: center;
 }
 
-.clickable-row{
+.rate-number {
+	text-align: center;
+}
+
+.clickable-row {
 	cursor: pointer;
+}
+
+.title3 {
+	margin: auto;
+}
+
+#search-group {
+	float: none;
+	margin: 0 auto; 
+	width : 50%;
+	transition: width 1s;
+	width: 50%;
 }
