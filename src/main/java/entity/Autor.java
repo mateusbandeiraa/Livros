@@ -30,8 +30,6 @@ public class Autor implements Serializable {
 	private String descricao;
 	@Column
 	private String imagem;
-	@Column
-	private Integer views;
 
 	@OneToMany(mappedBy = "autor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Livro> livros;
@@ -105,14 +103,6 @@ public class Autor implements Serializable {
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
-	}
-
-	public Integer getViews() {
-		return views;
-	}
-
-	public void setViews(Integer views) {
-		this.views = views;
 	}
 
 	public List<Livro> getLivros() {

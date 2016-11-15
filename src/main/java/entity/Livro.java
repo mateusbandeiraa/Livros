@@ -35,8 +35,6 @@ public class Livro implements Serializable {
 	private String editora;
 	@Column
 	private String imagem;
-	@Column
-	private Integer views;
 
 	@ManyToOne
 	private Autor autor;
@@ -125,14 +123,6 @@ public class Livro implements Serializable {
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
-	}
-
-	public Integer getViews() {
-		return views;
-	}
-
-	public void setViews(Integer views) {
-		this.views = views;
 	}
 
 	public Autor getAutor() {

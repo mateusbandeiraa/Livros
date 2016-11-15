@@ -28,6 +28,8 @@
 %>
 <script type="text/javascript">
 	$(document).ready(function() {
+		
+		//COR DE FUNDO DA NOTA
 		if (
 <%=l.getMediaVotos()%>
 	<= 2) {
@@ -39,6 +41,62 @@
 		} else {
 			$('#rate-color').addClass('label label-success');
 		}
+
+		
+		//HOVERS DAS ESTRELAS
+		function completeStars(n){
+			var i = 1;
+			while(i <= n){
+				$('#voto' + i).removeClass('glyphicon-star-empty');
+				$('#voto' + i).addClass('glyphicon-star');
+				i++;
+			}
+		}
+		function emptyStars(n){
+			var i = 1;
+			while(i<=n){
+				$('#voto' + i).removeClass('glyphicon-star');
+				$('#voto' + i).addClass('glyphicon-star-empty');
+				i++;
+			}
+		}
+		$('#voto1').click(function() {
+			
+		});
+		
+		$('#voto1').hover(function() {
+			completeStars(1);
+			
+		}, function() {
+			emptyStars(1);
+		});
+		
+		$('#voto2').hover(function() {
+			completeStars(2);
+			
+		}, function() {
+			emptyStars(2);
+		});
+		$('#voto3').hover(function() {
+			completeStars(3);
+			
+		}, function() {
+			emptyStars(3);
+		});
+		$('#voto4').hover(function() {
+			completeStars(4);
+			
+		}, function() {
+			emptyStars(4);
+		});
+		$('#voto5').hover(function() {
+			completeStars(5);
+			
+		}, function() {
+			emptyStars(5);
+		});
+		
+	
 	});
 </script>
 <title><%=l.getNome()%></title>
@@ -73,6 +131,16 @@
 											value="<%=l.getMediaVotos()%>" />
 									</span>
 								</h2>
+								<h4 class="rate-star">Sua nota: 
+								<span class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
+								<span class="glyphicon glyphicon-star-empty star-vote" id="voto2"></span>
+								<span class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
+								<span class="glyphicon glyphicon-star-empty star-vote" id="voto4"></span>
+								<span class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span>
+								
+								
+								</h4>
+								
 							</div>
 						</div>
 					</div>

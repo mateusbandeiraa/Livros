@@ -10,6 +10,11 @@
 
 .rate-number {
 	text-align: center;
+	padding-bottom: 5px;
+}
+
+.star-vote {
+	cursor: pointer;
 }
 
 .clickable-row {
@@ -23,12 +28,12 @@
 #search-group {
 	float: none;
 	margin: 0 auto;
-	width: 50%; 
-	transition : width 1s;
+	width: 50%;
+	transition: width 1s;
 }
 
 @media only screen and (min-width: 992px) {
 	#con-search {
-		max-width:642px;
+		max-width: 642px;
 	}
 }

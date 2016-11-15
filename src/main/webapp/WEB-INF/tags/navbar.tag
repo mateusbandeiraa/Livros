@@ -1,6 +1,6 @@
 <%@ tag pageEncoding="UTF-8"%>
 <style>
-a {
+.nav-link {
 	color: #fff;
 }
 
@@ -19,11 +19,11 @@ a {
 		</div>
 		<div class="collapse navbar-collapse" id="navCollapse">
 			<ul class="nav navbar-nav">
-				<li><a href="."><span class="glyphicon glyphicon-home"></span>
+				<li><a class="nav-link" href="."><span class="glyphicon glyphicon-home"></span>
 						Home</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+				<li><a class="nav-link" href="#"><span class="glyphicon glyphicon-log-in"></span>
 						Login</a></li>
 			</ul>
 		</div>
