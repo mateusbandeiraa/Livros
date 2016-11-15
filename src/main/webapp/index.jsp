@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#search-field').focus(function() {
-			$('#search-group').css("width", "100%");
+			$('#search-group').css("width", "100% ");
 		});
 		$('#search-field').hover(function() {
 			$('#search-group').css("width", "100%");
@@ -44,7 +44,7 @@
 		<div class="container">
 			<h1>Levros</h1>
 			<h4>O menor banco de dados de livros na internet.</h4>
-			<div class="col-sm-offset-3 col-sm-6" id="col-search">
+			<div class="container" id="con-search">
 				<form>
 					<div class="form-group">
 						<div class="input-group" id="search-group">

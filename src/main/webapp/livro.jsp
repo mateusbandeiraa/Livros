@@ -46,58 +46,61 @@
 	<!-- NAVBAR -->
 	<t:navbar></t:navbar>
 	<!-- CONTEÚDO -->
-	<div class="col-sm-7 col-center">
-		<div class="panel panel-primary">
+	<div class="container">
+		<div class="col-md-12">
+			<div class="panel panel-primary">
 
-			<div class="panel-heading"></div>
+				<div class="panel-heading"></div>
 
-			<div class="panel-body">
-				<div class="col-sm-3">
-					<div class="thumbnail">
-						<img alt="Capa do Livro" src="img/Perdido em Marte.jpg">
-						<div class="caption"></div>
-						<h3 class="rate-star">
-							<%
-								Integer rate = l.getMediaVotos().intValue();
-							%>
-							<c:forEach begin="1" end="<%=rate%>">
-								<span class="glyphicon glyphicon-star"></span>
-							</c:forEach>
+				<div class="panel-body">
+					<div class="col-md-3">
+						<div class="thumbnail">
+							<img alt="Capa do Livro" src="img/Perdido em Marte.jpg">
+							<div class="caption"></div>
+							<h3 class="rate-star">
+								<%
+									Integer rate = l.getMediaVotos().intValue();
+								%>
+								<c:forEach begin="1" end="<%=rate%>">
+									<span class="glyphicon glyphicon-star"></span>
+								</c:forEach>
 
-						</h3>
-						<h2 class="rate-number">
-							<span id="rate-color"> <fmt:formatNumber type="number"
-									maxIntegerDigits="1" maxFractionDigits="1"
-									value="<%=l.getMediaVotos()%>" />
-							</span>
-						</h2>
-
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<h2><%=l.getNome()%></h2>
-					<h3 style="margin-top: 0;"><%=l.getAutor().getNome()%></h3>
-					<p><%=l.getDescricao()%></p>
-				</div>
-				<div class="col-sm-3">
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							<h3 class="title3">
-								<span class="glyphicon glyphicon-user"></span> Sobre o autor
 							</h3>
+							<h2 class="rate-number">
+								<span id="rate-color"> <fmt:formatNumber type="number"
+										maxIntegerDigits="1" maxFractionDigits="1"
+										value="<%=l.getMediaVotos()%>" />
+								</span>
+							</h2>
+
 						</div>
-						<div class="panel-body">
-							<div class="thumbnail" style="margin-bottom: 10px;">
-								<img alt="Foto do autor" src="img/Andy Weir.jpg">
+					</div>
+					<div class="col-md-6">
+						<h2><%=l.getNome()%></h2>
+						<h3 style="margin-top: 0;"><%=l.getAutor().getNome()%></h3>
+						<p><%=l.getDescricao()%></p>
+					</div>
+					<div class="col-md-3">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<h3 class="title3">
+									<span class="glyphicon glyphicon-user"></span> Sobre o autor
+								</h3>
 							</div>
-							<h3><%=l.getAutor().getNome()%></h3>
-							<p><%=l.getAutor().getDescricao() %></p>
-							<a href="./autor.jsp?id=<%=l.getAutor().getId()%>" style="text-align: right;"><h4>Saiba mais...</h4></a>
+							<div class="panel-body">
+								<div class="thumbnail" style="margin-bottom: 10px;">
+									<img alt="Foto do autor" src="img/Andy Weir.jpg">
+								</div>
+								<h3><%=l.getAutor().getNome()%></h3>
+								<p><%=l.getAutor().getDescricao()%></p>
+								<a href="./autor.jsp?id=<%=l.getAutor().getId()%>"
+									style="text-align: right;"><h4>Saiba mais...</h4></a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
+			</div>
 		</div>
 	</div>
 </body>
