@@ -31,10 +31,9 @@
 					<div class="form-group">
 						<div class="input-group" id="search-group">
 
-							<input type="text" class="form-control" placeholder="Buscar"
-								id="search-field">
+							<input type="text" class="form-control search-field" placeholder="Buscar">
 							<div class="input-group-btn">
-								<button class="btn btn-default" type="submit">
+								<button class="btn btn-default search-field" type="submit">
 									<div class="glyphicon glyphicon-search" style="height: 20px"></div>
 								</button>
 							</div>
@@ -56,13 +55,19 @@
 						<tr>
 							<th>#</th>
 							<th>Autor</th>
+							<th>Nota</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>J. R. R. Tolkien</td>
-						</tr>
+						<c:forEach items="${mb.topAutores}" var="autor" varStatus="loop">
+							<tr class="clickable-row" data-href="./autor.jsp?id=${autor.id}">
+								<td>${loop.count}</td>
+								<td>${autor.nome}</td>
+								<td><fmt:formatNumber type="number" maxIntegerDigits="1"
+									maxFractionDigits="1" value="${autor.mediaAutor}" /><span
+								class="glyphicon glyphicon-star" style="padding-left: 5px;"></span></td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>

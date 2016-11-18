@@ -30,7 +30,7 @@ public class Autor implements Serializable {
 	private String descricao;
 	@Column
 	private String imagem;
-
+	private transient Double mediaAutor = 0.;
 	@OneToMany(mappedBy = "autor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Livro> livros;
 
@@ -103,6 +103,14 @@ public class Autor implements Serializable {
 
 	public void setImagem(String imagem) {
 		this.imagem = imagem;
+	}
+
+	public Double getMediaAutor() {
+		return mediaAutor;
+	}
+
+	public void setMediaAutor(Double mediaAutor) {
+		this.mediaAutor = mediaAutor;
 	}
 
 	public List<Livro> getLivros() {
