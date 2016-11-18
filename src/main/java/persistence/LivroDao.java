@@ -1,6 +1,5 @@
 package persistence;
 
-import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -17,11 +16,9 @@ public class LivroDao {
 	private Query query;
 	private Criteria criteria;
 
-	public void create(Livro l, Autor a) {
-		l.setAutor(a);
+	public void create(Livro l) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		transaction = session.beginTransaction();
-		session.save(a);
 		session.save(l);
 		transaction.commit();
 		session.close();

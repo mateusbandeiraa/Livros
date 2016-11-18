@@ -23,7 +23,10 @@ public class HomeManagerBean {
 			l.setMediaVotos(m);
 		}
 		topLivros.sort(Comparator.comparing(Livro::getMediaVotos).reversed());
-		return topLivros.subList(0, 9);
+		if(topLivros.size() < 10){
+			return topLivros;
+		}
+		return topLivros.subList(0, 10);
 	}
 
 	public void setTopLivros(List<Livro> topLivros) {

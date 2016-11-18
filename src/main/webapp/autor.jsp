@@ -47,7 +47,7 @@
 				<div class="panel-body">
 					<div class="col-md-3">
 						<div class="thumbnail">
-							<img alt="Foto do autor" src="img/Andy Weir.jpg">
+							<img alt="Foto do autor" src="src/main/webapp/img/<%=a.getImagem() %>">
 						</div>
 					</div>
 					<div class="col-md-5">
