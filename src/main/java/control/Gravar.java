@@ -69,6 +69,11 @@ public class Gravar extends HttpServlet {
 			String extArq = arq.getSubmittedFileName();
 			extArq = extArq.substring(extArq.lastIndexOf("."));
 			InputStream is = arq.getInputStream();
+			
+			File diretorio = new File(CAMINHO);
+			if(!diretorio.isDirectory())
+				diretorio.mkdirs();
+			
 			File file = new File(CAMINHO + l.getIsbn() + extArq);
 			file.createNewFile();
 			FileOutputStream fos = new FileOutputStream(file.getPath());
