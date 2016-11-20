@@ -18,10 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import entity.Autor;
 import entity.Livro;
+import entity.Usuario;
 import persistence.AutorDao;
 import persistence.LivroDao;
+import persistence.UsuarioDao;
 
 @WebServlet("/Gravar")
 @MultipartConfig
@@ -45,6 +49,9 @@ public class Gravar extends HttpServlet {
 
 		case "autor":
 			gravarAutor(request, response);
+			break;
+		case "usuario":
+			gravarUsuario(request, response);
 			break;
 		default:
 			break;
@@ -134,6 +141,29 @@ public class Gravar extends HttpServlet {
 			request.setAttribute("msgAutor", "Erro: " + ex.getLocalizedMessage());
 			request.setAttribute("sucessoAutor", false);
 			ex.printStackTrace();
+		}finally{
+			request.getRequestDispatcher("cadastro.jsp").forward(request, response);
+		}
+	}
+	
+	protected void gravarUsuario(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Usuario u = new Usuario();
+			u.setNome(request.getParameter("nomeUsuario"));
+			u.setEmail(request.getParameter("emailUsuario"));
+			String senha = request.getParameter("senhaUsuario");
+			senha = BCrypt.hashpw(senha, BCrypt.gensalt());
+			u.setSenha(senha);
+			u.setPerfil("usu");
+			
+			if(u.getEmail().equalsIgnoreCase("admin@admin.com"))
+				u.setPerfil("adm");
+			
+			new UsuarioDao().create(u);
+		} catch (Exception ex) {
+			request.setAttribute("msgUsuario", "Erro: " + ex.getLocalizedMessage());
+			request.setAttribute("sucessoUsuario", false);
 		}finally{
 			request.getRequestDispatcher("cadastro.jsp").forward(request, response);
 		}
