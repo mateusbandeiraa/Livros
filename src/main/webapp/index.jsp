@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+	<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Levros</title>
@@ -18,7 +17,17 @@
 <script type="text/javascript" src="./js/scripts.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@page import="entity.*, persistence.*"%>
 <jsp:useBean id="mb" class="manager.HomeManagerBean"></jsp:useBean>
+
+<%
+	Integer id = (Integer) session.getAttribute("userID");
+	Usuario u = new Usuario();
+
+	if (id != null) {
+		u = new UsuarioDao().findByCode(id);
+	}
+%>
 </head>
 <body>
 	<!-- CABEÇALHO -->
@@ -31,7 +40,8 @@
 					<div class="form-group">
 						<div class="input-group" id="search-group">
 
-							<input type="text" class="form-control search-field" placeholder="Buscar">
+							<input type="text" class="form-control search-field"
+								placeholder="Buscar">
 							<div class="input-group-btn">
 								<button class="btn btn-default search-field" type="submit">
 									<div class="glyphicon glyphicon-search" style="height: 20px"></div>
@@ -64,8 +74,8 @@
 								<td>${loop.count}</td>
 								<td>${autor.nome}</td>
 								<td><fmt:formatNumber type="number" maxIntegerDigits="1"
-									maxFractionDigits="1" value="${autor.mediaAutor}" /><span
-								class="glyphicon glyphicon-star" style="padding-left: 5px;"></span></td>
+										maxFractionDigits="1" value="${autor.mediaAutor}" /><span
+									class="glyphicon glyphicon-star" style="padding-left: 5px;"></span></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -74,13 +84,6 @@
 		</div>
 	</div>
 	<div class="col-md-6 col-sm-9">
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<div class="panel-title">Conteúdo</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-3">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Top Livros</div>
@@ -108,7 +111,49 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-1"></div>
+	<div class="col-sm-3">
+		<div class="panel panel-primary">
+			<c:if test="${userID == null}">
+				<div class="panel-heading">
+					<div class="panel-title">Login</div>
+				</div>
+				<div class="panel-body">
+					<form class="form-horizontal col-sm-12" method="post"
+						action="Login?cmd=login">
+						<div class="form-group">
+							<input class="form-control" type="email" id="emailUsuario"
+								name="emailUsuario" placeholder="E-mail" required>
+						</div>
+						<div class="form-group">
+							<input class="form-control" type="password" id="senhaUsuario"
+								name="senhaUsuario" placeholder="Senha" required>
+						</div>
+						<div id="msg">${logMsg}</div>
+						<div class="col-lg-6 col-sm-12">
+							<button class="btn btn-primary btn-block" type="submit">Entrar</button>
+						</div>
+						<div class="col-lg-6 col-sm-12">
+							<button class="btn btn-info btn-block" type="button"
+								onclick="parent.location='cadastro.jsp'">Cadastrar...</button>
+						</div>
+					</form>
+				</div>
+			</c:if>
+			<c:if test="${userID != null}">
+				<div class="panel-heading">
+					<div class="panel-title">Perfil</div>
+				</div>
+				<div class="panel-body">
+					<h3>
+						Bem vindo,
+						<%=u.getNome()%></h3>
+					<form action="Login?cmd=logout" method="post">
+						<button type="submit" class="btn btn-danger btn-block">Logout</button>
+					</form>
+				</div>
+			</c:if>
+		</div>
+	</div>
 </body>
 </body>
 </html>

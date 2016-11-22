@@ -28,11 +28,11 @@ public class Filtro implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 		
 		HttpSession session = req.getSession();
-		
-		if(session.getAttribute("logado") != null){
+		String perf = (String) session.getAttribute("userProf");
+		if(perf != null && perf.equalsIgnoreCase("adm")){
 		chain.doFilter(request, response);
 		}else{
-			resp.sendRedirect("../gandalf.jsf");
+			resp.sendRedirect("../gandalf.jsp");
 		}
 	}
 

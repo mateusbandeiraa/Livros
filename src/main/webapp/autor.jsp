@@ -2,7 +2,6 @@
 <%@page import="java.util.Comparator"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,22 +14,22 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-	<script type="text/javascript" src="./js/scripts.js"></script>
+<script type="text/javascript" src="./js/scripts.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <link rel="stylesheet" href="css/style.css">
-<%@page import="entity.*, persistence.*, java.util.ArrayList, java.util.Comparator, java.util.List"%>
+<%@page
+	import="entity.*, persistence.*, java.util.ArrayList, java.util.Comparator, java.util.List"%>
 <%
 	final Integer id = Integer.valueOf((String) request.getParameter("id"));
 	Autor a = new Autor();
 	if (id != null) {
 		a = new AutorDao().findByCode(id);
 	}
-	
+
 	List<Livro> livros = new ArrayList<>();
 	livros = a.getLivros();
-	
 %>
 <title><%=a.getNome()%></title>
 </head>
@@ -47,7 +46,8 @@
 				<div class="panel-body">
 					<div class="col-md-3">
 						<div class="thumbnail">
-							<img alt="Foto do autor" src="src/main/webapp/img/<%=a.getImagem() %>">
+							<img alt="Foto do autor"
+								src="src/main/webapp/img/<%=a.getImagem()%>">
 						</div>
 					</div>
 					<div class="col-md-5">
@@ -58,27 +58,29 @@
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<h3 class="title3">
-									<span class="glyphicon glyphicon-book"></span> Obras de <%=a.getNome() %>
+									<span class="glyphicon glyphicon-book"></span> Obras de
+									<%=a.getNome()%>
 								</h3>
 							</div>
 							<div class="panel-body">
 								<table class="table table-hover">
-					<thead>
-						<tr>
-							<th>Nome</th>
-							<th>Nota</th>
-						</tr>
-					</thead>
-					<c:forEach items="<%=livros%>" var="livro">
-						<tr class="clickable-row" data-href='./livro.jsp?id=${livro.id}'>
-							<td>${livro.nome}</td>
-							<td><fmt:formatNumber type="number" maxIntegerDigits="1"
-									maxFractionDigits="1" value="${livro.mediaVotos}" /><span
-								class="glyphicon glyphicon-star" style="padding-left: 5px;"></span></td>
+									<thead>
+										<tr>
+											<th>Nome</th>
+											<th>Nota</th>
+										</tr>
+									</thead>
+									<c:forEach items="<%=livros%>" var="livro">
+										<tr class="clickable-row"
+											data-href='./livro.jsp?id=${livro.id}'>
+											<td>${livro.nome}</td>
+											<td><fmt:formatNumber type="number" maxIntegerDigits="1"
+													maxFractionDigits="1" value="${livro.mediaVotos}" /><span
+												class="glyphicon glyphicon-star" style="padding-left: 5px;"></span></td>
 
-						</tr>
-					</c:forEach>
-				</table>
+										</tr>
+									</c:forEach>
+								</table>
 							</div>
 						</div>
 					</div>
