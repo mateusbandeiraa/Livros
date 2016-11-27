@@ -33,7 +33,7 @@
 						class="glyphicon glyphicon-home"></span> Home</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a class="nav-link" href="#"><span
+				<li><a class="nav-link" href="/login.jsp"><span
 						class="glyphicon glyphicon-log-in"></span> Login</a></li>
 			</ul>
 		</div>

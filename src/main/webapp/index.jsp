@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 	<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 <title>Levros</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -128,7 +128,7 @@
 							<input class="form-control" type="password" id="senhaUsuario"
 								name="senhaUsuario" placeholder="Senha" required>
 						</div>
-						<div id="msg">${logMsg}</div>
+						<div id="msg">${param.logMsg}</div>
 						<div class="col-lg-6 col-sm-12">
 							<button class="btn btn-primary btn-block" type="submit">Entrar</button>
 						</div>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -130,14 +129,14 @@
 								</span>
 							</h2>
 							<h4 class="rate-star">
-								Sua nota: <span style="white-space: nowrap;"><span class="glyphicon glyphicon-star-empty star-vote"
-									id="voto1"></span> <span
-									class="glyphicon glyphicon-star-empty star-vote" id="voto2"></span>
-								<span class="glyphicon glyphicon-star-empty star-vote"
-									id="voto3"></span> <span
-									class="glyphicon glyphicon-star-empty star-vote" id="voto4"></span>
-								<span class="glyphicon glyphicon-star-empty star-vote"
-									id="voto5"></span></span>
+								Sua nota: <span style="white-space: nowrap;"><span
+									class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
+									<span class="glyphicon glyphicon-star-empty star-vote"
+									id="voto2"></span> <span
+									class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
+									<span class="glyphicon glyphicon-star-empty star-vote"
+									id="voto4"></span> <span
+									class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span></span>
 
 
 							</h4>

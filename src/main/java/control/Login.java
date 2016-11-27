@@ -1,6 +1,7 @@
 package control;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +18,7 @@ import persistence.UsuarioDao;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	String ref;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -26,7 +28,9 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
-		System.out.println(cmd);
+		ref = request.getHeader("referer");
+		ref = ref.substring(ref.indexOf("livros/") + 7, ref.indexOf(".jsp") + 4);
+		System.out.println(ref);
 		switch (cmd) {
 		case "login":
 			login(request, response);
@@ -58,12 +62,12 @@ public class Login extends HttpServlet {
 			session.setAttribute("userID", u.getId());
 			session.setAttribute("userProf", u.getPerfil());
 		} catch (Exception ex) {
-			request.setAttribute("logMsg", ex.getMessage());
 			ex.printStackTrace();
-			request.getRequestDispatcher("index.jsp").forward(request, response);
+			response.sendRedirect(ref + "?logMsg=" + URLEncoder.encode(ex.getMessage(), "UTF-8"));
+			return;
 		}
 
-		response.sendRedirect("index.jsp");
+		response.sendRedirect(ref);
 	}
 
 	protected void logout(HttpServletRequest request, HttpServletResponse response)
@@ -73,7 +77,7 @@ public class Login extends HttpServlet {
 		session.setAttribute("userProf", null);
 		request.setAttribute("logMsg", null);
 
-		response.sendRedirect("index.jsp");
+		response.sendRedirect(ref);
 	}
 
 }
