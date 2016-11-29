@@ -145,7 +145,7 @@
 				</div>
 				<div class="panel-body">
 					<h3>
-						Bem vindo,
+						Olá,
 						<%=u.getNome()%></h3>
 					<form action="Login?cmd=logout" method="post">
 						<button type="submit" class="btn btn-danger btn-block">Logout</button>

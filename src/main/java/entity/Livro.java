@@ -17,7 +17,7 @@ import org.hibernate.annotations.Type;
 import persistence.VotoDao;
 
 @Entity
-public class Livro implements Serializable {
+public class Livro implements Serializable, Pesquisavel {
 
 	private static final long serialVersionUID = 1L;
 	@Id

@@ -57,14 +57,31 @@ public class AutorDao {
 
 	public List<Autor> findByName(String nome) {
 		session = HibernateUtil.getSessionFactory().openSession();
-		query = session.createQuery("from autor A where A.nome like '%' || :nome || '%'");
-		query.setParameter("nome", nome);
+
+		if (!nome.contains(" ")) { // SE A STRING NÃO CONTEM ESPAÇO
+			query = session.createQuery("from Autor A where A.nome like '%' || :nome || '%'");
+			query.setString("nome", nome);
+		} else { // CASO CONTENHA ESPAÇO
+			String[] nomes = nome.split(" ");
+			String quer = "from Autor A where";
+
+			for (int i = 0; i < nomes.length; i++) {
+				if(i!=0)
+					quer += " OR";
+				quer += " A.nome like '%' || ? || '%'";
+			}
+			query = session.createQuery(quer);
+
+			for (int i = 0; i < nomes.length; i++) {
+				query.setString(i, nomes[i]);
+			}
+		}
 		@SuppressWarnings("unchecked")
 		List<Autor> autores = query.list();
 		session.close();
 		return autores;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(new AutorDao().findByCode(2));
 	}
