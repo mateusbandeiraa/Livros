@@ -29,7 +29,12 @@ public class Login extends HttpServlet {
 			throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
 		ref = request.getHeader("referer");
-		ref = ref.substring(ref.indexOf("livros/") + 7, ref.indexOf(".jsp") + 4);
+		System.out.println(ref);
+		try {
+			ref = ref.substring(ref.indexOf("livros/") + 7, ref.indexOf(".jsp") + 4);
+		} catch (Exception e) {
+			ref = "index.jsp";
+		}
 		System.out.println(ref);
 		switch (cmd) {
 		case "login":

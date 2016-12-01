@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<html>
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Levros</title>
@@ -36,12 +36,12 @@
 			<h1>Levros</h1>
 			<h4>O menor banco de dados de livros na internet.</h4>
 			<div class="container" id="con-search">
-				<form>
+				<form id="search-form">
 					<div class="form-group">
 						<div class="input-group" id="search-group">
 
 							<input type="text" class="form-control search-field"
-								placeholder="Buscar">
+								placeholder="Buscar" id="search-text">
 							<div class="input-group-btn">
 								<button class="btn btn-default search-field" type="submit">
 									<div class="glyphicon glyphicon-search" style="height: 20px"></div>

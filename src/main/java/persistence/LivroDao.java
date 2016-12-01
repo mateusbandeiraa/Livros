@@ -69,8 +69,14 @@ public class LivroDao {
 	public List<Livro> findListByName(String nome) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		if (!nome.contains(" ")) {
-			query = session.createQuery("from Livro L where L.nome LIKE '%'|| :nome || '%'");
-			query.setParameter("nome", nome);
+			if (nome.length() != 1) { //Caso o termo tenha apenas uma letra, retorna resultados dessa maneira
+				query = session.createQuery("from Livro L where L.nome LIKE '%'|| :nome || '%'");
+				query.setParameter("nome", nome);
+			} else {
+				query = session.createQuery("from Livro L where L.nome LIKE :nome || ' %' OR L.nome LIKE '% '|| :nome || ' %' ");
+				query.setParameter("nome", nome);
+			}
+			
 		} else {
 			String[] nomes = nome.split(" ");
 			String quer = "from Livro L where";
@@ -78,16 +84,20 @@ public class LivroDao {
 			for (int i = 0; i < nomes.length; i++) {
 				if (i != 0)
 					quer += " OR";
-				quer += " L.nome like '%' || ? || '%'";
+				if (nomes[i].length() != 1) { //Caso o termo tenha apenas uma letra, retorna resultados dessa maneira
+					quer += " L.nome like '%' || ? || '%'";
+				} else {
+					quer += " L.nome like ?";
+				}
 			}
-			
+
 			query = session.createQuery(quer);
 
 			for (int i = 0; i < nomes.length; i++) {
 				query.setString(i, nomes[i]);
 			}
 		}
-
+		System.out.println(query.getQueryString());
 		@SuppressWarnings("unchecked")
 		List<Livro> livros = query.list();
 		session.close();

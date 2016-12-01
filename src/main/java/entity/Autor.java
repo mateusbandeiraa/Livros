@@ -16,7 +16,7 @@ import org.hibernate.annotations.Type;
 
 //4tg5g6yh6h
 @Entity
-public class Autor implements Serializable, Pesquisavel{
+public class Autor implements Serializable, Pesquisavel {
 
 	private static final long serialVersionUID = 1L;
 	@Id
