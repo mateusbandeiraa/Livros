@@ -40,16 +40,22 @@ public class HomeManagerBean {
 	public List<Autor> getTopAutores() {
 		AutorDao ad = new AutorDao();
 		topAutores = ad.findAll();
-		for(Autor a : topAutores){
+		for (Autor a : topAutores) {
 			Double somaMediaLivros = 0.;
-			for(Livro l : a.getLivros()){
+			for (Livro l : a.getLivros()) {
 				somaMediaLivros += new VotoDao().getMediaLivro(l);
 			}
 			Double media = somaMediaLivros / a.getLivros().size();
-			a.setMediaAutor(media);
+			System.out.println("Autor: " + a.getNome());
+			System.out.println("Media: " + media);
+			if (!media.isNaN()) {
+				a.setMediaAutor(media);
+			} else {
+				a.setMediaAutor(0.);
+			}
 		}
 		topAutores.sort(Comparator.comparing(Autor::getMediaAutor).reversed());
-		if(topAutores.size() < 10){
+		if (topAutores.size() < 10) {
 			return topAutores;
 		}
 		return topAutores.subList(0, 10);

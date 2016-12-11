@@ -17,6 +17,17 @@
 	border-color: #fff;
 }
 </style>
+<script>
+	$(document).ready(function() {
+		if (<%=(session.getAttribute("userID") != null)%>) {
+			$('#nav-login').attr('style', 'display: none;');
+		} else {
+			ref = window.location.href;
+			ref = ref.substring(29);
+			$('#nav-login').attr('href', 'login.jsp?ref=' + ref);
+		}
+	});
+</script>
 <nav class="navbar navbar-dark bg-primary">
 	<div class="container">
 
@@ -33,7 +44,7 @@
 						class="glyphicon glyphicon-home"></span> Home</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a class="nav-link" href="/login.jsp"><span
+				<li><a class="nav-link" id="nav-login" href="login.jsp?ref="><span
 						class="glyphicon glyphicon-log-in"></span> Login</a></li>
 			</ul>
 		</div>

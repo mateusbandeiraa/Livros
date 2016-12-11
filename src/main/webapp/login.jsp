@@ -30,6 +30,7 @@
 <body>
 	<t:navbar></t:navbar>
 	<div class="container">
+	<div class="col-sm-offset-3 col-sm-6">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Login</div>
@@ -38,6 +39,7 @@
 				<form class="form-horizontal col-sm-12" method="post"
 					action="Login?cmd=login">
 					<div class="form-group">
+					<input type="hidden" name="ref" value="<%=request.getParameter("ref") %>" >
 						<input class="form-control" type="email" id="emailUsuario"
 							name="emailUsuario" placeholder="E-mail" required>
 					</div>
@@ -45,7 +47,6 @@
 						<input class="form-control" type="password" id="senhaUsuario"
 							name="senhaUsuario" placeholder="Senha" required>
 					</div>
-					<div id="msg">${logMsg}</div>
 					<div class="col-lg-6 col-sm-12">
 						<button class="btn btn-primary btn-block" type="submit">Entrar</button>
 					</div>
@@ -54,7 +55,9 @@
 							onclick="parent.location='cadastro.jsp'">Cadastrar...</button>
 					</div>
 				</form>
+				<div id="msg">${param["logMsg"]}</div>
 			</div>
+		</div>
 		</div>
 	</div>
 </body>

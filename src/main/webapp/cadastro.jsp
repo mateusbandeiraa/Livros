@@ -73,6 +73,7 @@
 						<div id="senhasDif" class="alert alert-danger" style="display:none;">As senhas não coincidem!</div>
 						<button type="submit" class="btn btn-success btn-block">Cadastrar</button>
 					</form>
+					${param["msgUsuario"]}
 				</div>
 			</div>
 		</div>

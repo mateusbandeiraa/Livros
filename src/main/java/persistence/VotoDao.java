@@ -21,8 +21,6 @@ public class VotoDao {
 		//Verifica se o usuario já votou nesse livro. Evita votos duplicados.
 		if (findByUserNBook(v.getUsuario().getId(), v.getLivro().getId()) != null) {
 			v.setId(findByUserNBook(v.getUsuario().getId(), v.getLivro().getId()).getId());
-			System.out.println("Entrou no lugar certo");
-			System.out.println(v);
 			update(v);
 			return;
 		}		
@@ -115,5 +113,17 @@ public class VotoDao {
 		List<Voto> votos = findByBook(l.getId());
 		return votos.size();
 
+	}
+	
+	public static void main(String[] args) {
+		Usuario u = new Usuario();
+		u.setId(3);
+		
+		Livro l = new Livro();
+		l.setId(2);
+		
+		Voto v = new Voto(null, l, u, 5);
+		
+		new VotoDao().create(v);
 	}
 }

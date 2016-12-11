@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -23,15 +24,17 @@ import org.mindrot.jbcrypt.BCrypt;
 import entity.Autor;
 import entity.Livro;
 import entity.Usuario;
+import entity.Voto;
 import persistence.AutorDao;
 import persistence.LivroDao;
 import persistence.UsuarioDao;
+import persistence.VotoDao;
 
 @WebServlet("/Gravar")
 @MultipartConfig
 public class Gravar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+String ref;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -41,7 +44,12 @@ public class Gravar extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8"); // Para acertar os acentos
 		String cmd = request.getParameter("cmd");
-
+		ref = request.getHeader("referer");
+		try {
+			ref = ref.substring(ref.indexOf("livros/") + 7, ref.indexOf(".jsp") + 4);
+		} catch (Exception e) {
+			ref = "index.jsp";
+		}
 		switch (cmd) {
 		case "livro":
 			gravarLivro(request, response);
@@ -52,6 +60,9 @@ public class Gravar extends HttpServlet {
 			break;
 		case "usuario":
 			gravarUsuario(request, response);
+			break;
+		case "voto":
+			gravarVoto(request, response);
 			break;
 		default:
 			break;
@@ -161,11 +172,34 @@ public class Gravar extends HttpServlet {
 				u.setPerfil("adm");
 			
 			new UsuarioDao().create(u);
+			response.sendRedirect(ref + "?msgUsuario=Cadastro+efetuado+com+sucesso");
 		} catch (Exception ex) {
-			request.setAttribute("msgUsuario", "Erro: " + ex.getLocalizedMessage());
-			request.setAttribute("sucessoUsuario", false);
+			response.sendRedirect(ref + "?msgUsuario=" + ex.getMessage());
+		}
+	}
+	
+	protected void gravarVoto(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Integer idUsuario = Integer.valueOf(request.getParameter("userID"));
+			Usuario u = new Usuario();
+			u.setId(idUsuario);
+			
+			Integer idLivro = Integer.valueOf(request.getParameter("livroID"));
+			Livro l = new Livro();
+			l.setId(idLivro);
+			
+			Integer voto = Integer.valueOf(request.getParameter("nota"));
+			Voto v = new Voto(null, l, u, voto);
+			
+			System.out.println(v);
+			new VotoDao().create(v);
+			System.out.println("sucesso");
+			System.out.println(v);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}finally{
-			request.getRequestDispatcher("cadastro.jsp").forward(request, response);
+			response.sendRedirect(ref + "?id=" + request.getParameter("livroID"));
 		}
 	}
 

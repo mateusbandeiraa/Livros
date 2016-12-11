@@ -29,13 +29,11 @@ public class Login extends HttpServlet {
 			throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
 		ref = request.getHeader("referer");
-		System.out.println(ref);
 		try {
 			ref = ref.substring(ref.indexOf("livros/") + 7, ref.indexOf(".jsp") + 4);
 		} catch (Exception e) {
 			ref = "index.jsp";
 		}
-		System.out.println(ref);
 		switch (cmd) {
 		case "login":
 			login(request, response);
@@ -66,13 +64,19 @@ public class Login extends HttpServlet {
 
 			session.setAttribute("userID", u.getId());
 			session.setAttribute("userProf", u.getPerfil());
+
+			String refParam = request.getParameter("ref");
+			System.out.println("REF: " + refParam);
+			if (!refParam.contentEquals("null")) {
+				response.sendRedirect(refParam);
+			} else {
+				response.sendRedirect(ref);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			response.sendRedirect(ref + "?logMsg=" + URLEncoder.encode(ex.getMessage(), "UTF-8"));
 			return;
 		}
-
-		response.sendRedirect(ref);
 	}
 
 	protected void logout(HttpServletRequest request, HttpServletResponse response)

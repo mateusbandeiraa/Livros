@@ -29,20 +29,42 @@
 	$(document).ready(function() {
 
 		//COR DE FUNDO DA NOTA
-		if (
-<%=l.getMediaVotos()%>
-	<= 2) {
+		if (<%=l.getMediaVotos()%>	<= 2) {
 			$('#rate-color').addClass('label label-danger');
-		} else if (
-<%=l.getMediaVotos()%>
-	< 4) {
+		} else if (<%=l.getMediaVotos()%> < 4) {
 			$('#rate-color').addClass('label label-warning');
 		} else {
 			$('#rate-color').addClass('label label-success');
 		}
+		
+		//TENTA RECUPERAR VOTO DO USUARIO
+		<% 
+		Voto v = new Voto();
+		v.setRate(0);
+			Integer userID = (Integer) session.getAttribute("userID");
+			Integer livroID = Integer.valueOf(request.getParameter("id"));
+			System.out.println(userID);
+			System.out.println(livroID);
+			
+			if(userID != null && livroID != null){
+			System.out.println("certo");
+			VotoDao vd = new VotoDao();
+			Voto v2 = vd.findByUserNBook(userID, livroID);
+				if (v2 != null){
+				v = v2;
+				}
+			}
+			
+
+		%>
+		votoUsuario = <%=v.getRate() %>;
+		
+		
+		completeStars(votoUsuario);
 
 		//HOVERS DAS ESTRELAS
 		function completeStars(n) {
+			emptyStars(5);
 			var i = 1;
 			while (i <= n) {
 				$('#voto' + i).removeClass('glyphicon-star-empty');
@@ -58,40 +80,30 @@
 				i++;
 			}
 		}
-		$('#voto1').click(function() {
 
+		$('.star-vote').hover(function() {
+			voto = this.id.charAt(4);
+			completeStars(voto);
+		}, function() {
+			voto = this.id.charAt(4);
+			emptyStars(voto);
+			completeStars(votoUsuario);
 		});
 
-		$('#voto1').hover(function() {
-			completeStars(1);
+		//Voto
+		$('.star-vote').click(function() {
+			var userID = <%=session.getAttribute("userID")%>;
+	;
+			if (userID === null) {
+				alert('Você precisa estar logado para votar');
+				return;
+			}
+			voto = this.id.charAt(4);
+			$('#userID').val(userID);
+			$('#nota').val(voto)
+			
+			$('#form-vote').submit();
 
-		}, function() {
-			emptyStars(1);
-		});
-
-		$('#voto2').hover(function() {
-			completeStars(2);
-
-		}, function() {
-			emptyStars(2);
-		});
-		$('#voto3').hover(function() {
-			completeStars(3);
-
-		}, function() {
-			emptyStars(3);
-		});
-		$('#voto4').hover(function() {
-			completeStars(4);
-
-		}, function() {
-			emptyStars(4);
-		});
-		$('#voto5').hover(function() {
-			completeStars(5);
-
-		}, function() {
-			emptyStars(5);
 		});
 
 	});
@@ -129,16 +141,20 @@
 								</span>
 							</h2>
 							<h4 class="rate-star">
-								Sua nota: <span style="white-space: nowrap;"><span
-									class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
-									<span class="glyphicon glyphicon-star-empty star-vote"
-									id="voto2"></span> <span
-									class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
-									<span class="glyphicon glyphicon-star-empty star-vote"
-									id="voto4"></span> <span
-									class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span></span>
+								<form id="form-vote" action="Gravar?cmd=voto" method="post">
+								<input type="hidden" id="userID" name="userID">
+								<input type="hidden" id="nota" name="nota">
+								<input type="hidden" name="livroID" value="<%=l.getId() %>">
+									Sua nota: <span style="white-space: nowrap;"><span
+										class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote"
+										id="voto2"></span> <span
+										class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote"
+										id="voto4"></span> <span
+										class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span></span>
 
-
+								</form>
 							</h4>
 
 						</div>

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
+import org.mindrot.jbcrypt.BCrypt;
 
 //4tg5g6yh6h
 @Entity
@@ -119,6 +120,10 @@ public class Autor implements Serializable, Pesquisavel {
 
 	public void setLivros(List<Livro> livros) {
 		this.livros = livros;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(BCrypt.checkpw("111", "$2a$10$ZlnjrGb9MvfsO3lYghz8jOr6I19Gn5Lx73GQSs1g4.HxF03jR3HHi"));
 	}
 
 }

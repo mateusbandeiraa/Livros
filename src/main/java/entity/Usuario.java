@@ -28,7 +28,7 @@ public class Usuario implements Serializable {
 	@Column(columnDefinition = "enum ('usu', 'adm')")
 	private String perfil;
 
-	@OneToMany(mappedBy = "livro", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Voto> votos;
 
 	@Override

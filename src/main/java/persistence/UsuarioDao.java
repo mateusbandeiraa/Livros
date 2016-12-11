@@ -19,7 +19,6 @@ public class UsuarioDao {
 	public void create(Usuario u) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		transaction = session.beginTransaction();
-		u.setSenha(BCrypt.hashpw(u.getSenha(), BCrypt.gensalt()));
 		session.save(u);
 		transaction.commit();
 		session.close();
