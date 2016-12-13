@@ -67,7 +67,7 @@ public class Login extends HttpServlet {
 
 			String refParam = request.getParameter("ref");
 			System.out.println("REF: " + refParam);
-			if (!refParam.contentEquals("null")) {
+			if (refParam != null) {
 				response.sendRedirect(refParam);
 			} else {
 				response.sendRedirect(ref);

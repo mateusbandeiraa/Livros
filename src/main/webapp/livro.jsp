@@ -1,5 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	Livro l = new Livro();
+	try {
+		final Integer id = Integer.valueOf((String) request.getParameter("id"));
+
+		if (id != null) {
+			l = new LivroDao().findByCode(id);
+		}
+		if (l == null)
+			throw new Exception();
+	} catch (Exception Ex) {
+		request.getRequestDispatcher("404.jsp").forward(request, response);
+	}
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,13 +32,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <link rel="stylesheet" href="css/style.css">
 <%@page import="entity.*, persistence.*"%>
-<%
-	final Integer id = Integer.valueOf((String) request.getParameter("id"));
-	Livro l = new Livro();
-	if (id != null) {
-		l = new LivroDao().findByCode(id);
-	}
-%>
+
 <script type="text/javascript">
 	$(document).ready(function() {
 

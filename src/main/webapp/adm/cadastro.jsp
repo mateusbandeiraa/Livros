@@ -40,13 +40,17 @@
 			$('#desc-count').html(max - dig + ' caracteres restantes');
 		});
 
-		var dig = $('#descricaoAutor').val().length;
-		$('#desc-aut-count').html(max - dig + ' caracteres restantes');
+		var dig2 = $('#descricaoAutor').val().length;
+		$('#desc-aut-count').html(max - dig2 + ' caracteres restantes');
 
 		$('#descricaoAutor').keyup(function() {
 			dig = $('#descricaoAutor').val().length;
 
-			$('#desc-aut-count').html(max - dig + ' caracteres restantes');
+			$('#desc-aut-count').html(max - dig2 + ' caracteres restantes');
+		});
+		
+		$('#btn-return').click(function(){
+			window.location = "./dashboard.jsp"
 		});
 	});
 </script>
@@ -200,6 +204,12 @@
 						</c:if>
 					</p>
 				</div>
+			</div>
+		</div>
+		<div class="col-xs-12">
+			<div class="btn btn-info btn-lg" onclick="parent.location = './dashboard.jsp';">
+				<span class="glyphicon glyphicon-chevron-left"></span>Voltar ao
+				painel de controle
 			</div>
 		</div>
 	</div>

@@ -147,7 +147,11 @@
 					<h3>
 						Olá,
 						<%=u.getNome()%></h3>
-					<form action="Login?cmd=logout" method="post">
+						<%if(u.getPerfil().equals("adm")){
+							out.print("<h4><a href=\"adm/index.jsp\">Ir para o painel de controle do administrador</a></h4>");
+						}
+							%>
+						<form action="Login?cmd=logout" method="post">
 						<button type="submit" class="btn btn-danger btn-block">Logout</button>
 					</form>
 				</div>

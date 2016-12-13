@@ -2,6 +2,25 @@
 <%@page import="java.util.Comparator"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	Autor a = new Autor();
+	List<Livro> livros = new ArrayList<>();
+
+	try {
+
+		final Integer id = Integer.valueOf((String) request.getParameter("id"));
+		if (id != null) {
+			a = new AutorDao().findByCode(id);
+		}
+
+		if (a == null)
+			throw new Exception();
+
+		livros = a.getLivros();
+	} catch (Exception ex) {
+		request.getRequestDispatcher("404.jsp").forward(request, response);
+	}
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,16 +40,7 @@
 <link rel="stylesheet" href="css/style.css">
 <%@page
 	import="entity.*, persistence.*, java.util.ArrayList, java.util.Comparator, java.util.List"%>
-<%
-	final Integer id = Integer.valueOf((String) request.getParameter("id"));
-	Autor a = new Autor();
-	if (id != null) {
-		a = new AutorDao().findByCode(id);
-	}
 
-	List<Livro> livros = new ArrayList<>();
-	livros = a.getLivros();
-%>
 <title><%=a.getNome()%></title>
 </head>
 <body>
