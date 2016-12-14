@@ -26,11 +26,11 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<script type="text/javascript" src="./js/scripts.js"></script>
+<script type="text/javascript" src="/livros/js/scripts.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="/livros/css/style.css">
 <%@page import="entity.*, persistence.*"%>
 
 <script type="text/javascript">

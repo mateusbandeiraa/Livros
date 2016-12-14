@@ -21,6 +21,8 @@ import javax.servlet.http.Part;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.mysql.jdbc.jdbc2.optional.SuspendableXAConnection;
+
 import entity.Autor;
 import entity.Livro;
 import entity.Usuario;
@@ -34,7 +36,8 @@ import persistence.VotoDao;
 @MultipartConfig
 public class Gravar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-String ref;
+	String ref;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -58,12 +61,19 @@ String ref;
 		case "autor":
 			gravarAutor(request, response);
 			break;
+
+		case "editLivro":
+			editarLivro(request, response);
+			break;
+
 		case "usuario":
 			gravarUsuario(request, response);
 			break;
+
 		case "voto":
 			gravarVoto(request, response);
 			break;
+
 		default:
 			break;
 		}
@@ -71,7 +81,7 @@ String ref;
 
 	protected void gravarLivro(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		final String CAMINHO= getServletContext().getRealPath("/").concat("/src/main/webapp/img/");
+		final String CAMINHO = getServletContext().getRealPath("/").concat("/src/main/webapp/img/");
 		try {
 			// INSTANCIA E PREENCHE OBJ LIVRO
 			Livro l = new Livro();
@@ -87,39 +97,95 @@ String ref;
 			String extArq = arq.getSubmittedFileName();
 			extArq = extArq.substring(extArq.lastIndexOf("."));
 			InputStream is = arq.getInputStream();
-			
+
 			File diretorio = new File(CAMINHO);
-			if(!diretorio.isDirectory())
+			if (!diretorio.isDirectory())
 				diretorio.mkdirs();
-			
+
 			File file = new File(CAMINHO + l.getIsbn() + extArq);
 			file.createNewFile();
 			FileOutputStream fos = new FileOutputStream(file.getPath());
 			System.out.println(file.getPath());
 			int i = 0;
-			while((i = is.read()) != -1){
+			while ((i = is.read()) != -1) {
 				fos.write(i);
 			}
-			
+
 			l.setImagem(l.getIsbn() + extArq);
 			new LivroDao().create(l);
 
-			request.setAttribute("msgLivro", "Dados gravados com sucesso!");
-			request.setAttribute("sucessoLivro", true);
-			request.setAttribute("idCriada", l.getId());
-			
+			response.sendRedirect(
+					ref + "?sucessoLivro=true&msgLivro=Dados gravados com sucesso!&idCriada=" + l.getId());
+
 		} catch (Exception ex) {
-			request.setAttribute("msgLivro", "Erro: " + ex.getLocalizedMessage());
-			request.setAttribute("sucesso", false);
+			response.sendRedirect(ref + "?msgLivro=Erro: " + ex.getLocalizedMessage());
 			ex.printStackTrace();
-		}finally{
-			request.getRequestDispatcher("cadastro.jsp").forward(request, response);
 		}
 	}
-	
+
+	protected void editarLivro(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		final String CAMINHO = getServletContext().getRealPath("/").concat("/src/main/webapp/img/");
+		try {
+			// INSTANCIA E PREENCHE OBJ LIVRO
+			Livro l = new Livro();
+			l.setId(Integer.valueOf(request.getParameter("idLivro")));
+			l.setNome(request.getParameter("nomeLivro"));
+			l.setIsbn(request.getParameter("isbn"));
+			l.setEditora(request.getParameter("editora"));
+			l.setDescricao(request.getParameter("descricaoLivro"));
+			Autor a = new Autor();
+			System.out.println(request.getParameter("autorLivro"));
+			a.setId(Integer.valueOf(request.getParameter("autorLivro")));
+			l.setAutor(a);
+
+			// CHECA SE ISBN MUDOU PARA MUDAR IMAGEM
+			Livro l2 = new LivroDao().findByCode(l.getId());
+			if (l.getIsbn() != l2.getIsbn()) {
+				String novoNome = CAMINHO + l.getIsbn() + l2.getImagem().substring(l2.getImagem().length() - 4);
+				File file1 = new File(CAMINHO + l2.getImagem());
+				File file2 = new File(novoNome);
+				file1.renameTo(file2);
+				l.setImagem(l.getIsbn() + l2.getImagem().substring(l2.getImagem().length() - 4));
+			}
+
+			// TRABALHA COM A IMAGEM ENVIADA
+			Part arq = request.getPart("capaLivro");
+			String extArq = arq.getSubmittedFileName();
+			if (!extArq.equalsIgnoreCase("")) {
+				extArq = extArq.substring(extArq.lastIndexOf("."));
+				InputStream is = arq.getInputStream();
+
+				File diretorio = new File(CAMINHO);
+				if (!diretorio.isDirectory())
+					diretorio.mkdirs();
+
+				File file = new File(CAMINHO + l.getIsbn() + extArq);
+				file.createNewFile();
+				FileOutputStream fos = new FileOutputStream(file.getPath());
+				System.out.println(file.getPath());
+				int i = 0;
+				while ((i = is.read()) != -1) {
+					fos.write(i);
+				}
+
+				l.setImagem(l.getIsbn() + extArq);
+			}
+
+			new LivroDao().update(l);
+
+			response.sendRedirect(ref + "?sucessoLivro=true&msgLivro=Livro editado com sucesso!&item=livro&id=" + l.getId());
+
+		} catch (Exception ex) {
+			response.sendRedirect(
+					ref + "?msgLivro=Erro: " + ex.getLocalizedMessage() + "&item=livro&id=" + request.getAttribute("livroID"));
+			ex.printStackTrace();
+		}
+	}
+
 	protected void gravarAutor(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		final String CAMINHO= getServletContext().getRealPath("/").concat("/src/main/webapp/img/");
+		final String CAMINHO = getServletContext().getRealPath("/").concat("/src/main/webapp/img/");
 		try {
 			// INSTANCIA E PREENCHE OBJ LIVRO
 			Autor a = new Autor();
@@ -132,31 +198,28 @@ String ref;
 			String extArq = arq.getSubmittedFileName();
 			extArq = extArq.substring(extArq.lastIndexOf("."));
 			InputStream is = arq.getInputStream();
-			File file = new File(CAMINHO + "autor-"+ a.getId() + extArq);
+			File file = new File(CAMINHO + "autor-" + a.getId() + extArq);
 			file.createNewFile();
 			FileOutputStream fos = new FileOutputStream(file.getPath());
 			System.out.println(file.getPath());
 			int i = 0;
-			while((i = is.read()) != -1){
+			while ((i = is.read()) != -1) {
 				fos.write(i);
 			}
-			
-			a.setImagem("autor-"+ a.getId() + extArq);
+
+			a.setImagem("autor-" + a.getId() + extArq);
 			ad.update(a);
 
-			request.setAttribute("msgAutor", "Dados gravados com sucesso!");
-			request.setAttribute("sucessoAutor", true);
-			request.setAttribute("idCriada", a.getId());
-			
+			response.sendRedirect(
+					ref + "?sucessoAutor=true&msgAutor=Dados gravados com sucesso!&idCriada=" + a.getId());
+
 		} catch (Exception ex) {
-			request.setAttribute("msgAutor", "Erro: " + ex.getLocalizedMessage());
-			request.setAttribute("sucessoAutor", false);
+			response.sendRedirect(ref + "?msgAutor=Erro: " + ex.getLocalizedMessage());
+
 			ex.printStackTrace();
-		}finally{
-			request.getRequestDispatcher("cadastro.jsp").forward(request, response);
 		}
 	}
-	
+
 	protected void gravarUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
@@ -167,38 +230,38 @@ String ref;
 			senha = BCrypt.hashpw(senha, BCrypt.gensalt());
 			u.setSenha(senha);
 			u.setPerfil("usu");
-			
-			if(u.getEmail().equalsIgnoreCase("admin@admin.com"))
+
+			if (u.getEmail().equalsIgnoreCase("admin@admin.com"))
 				u.setPerfil("adm");
-			
+
 			new UsuarioDao().create(u);
 			response.sendRedirect(ref + "?msgUsuario=Cadastro+efetuado+com+sucesso");
 		} catch (Exception ex) {
 			response.sendRedirect(ref + "?msgUsuario=" + ex.getMessage());
 		}
 	}
-	
+
 	protected void gravarVoto(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
 			Integer idUsuario = Integer.valueOf(request.getParameter("userID"));
 			Usuario u = new Usuario();
 			u.setId(idUsuario);
-			
+
 			Integer idLivro = Integer.valueOf(request.getParameter("livroID"));
 			Livro l = new Livro();
 			l.setId(idLivro);
-			
+
 			Integer voto = Integer.valueOf(request.getParameter("nota"));
 			Voto v = new Voto(null, l, u, voto);
-			
+
 			System.out.println(v);
 			new VotoDao().create(v);
 			System.out.println("sucesso");
 			System.out.println(v);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}finally{
+		} finally {
 			response.sendRedirect(ref + "?id=" + request.getParameter("livroID"));
 		}
 	}

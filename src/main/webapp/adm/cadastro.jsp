@@ -15,7 +15,7 @@
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <link rel="stylesheet" href="css/style.css">
 
-<script type="text/javascript" src="js/scripts.js"></script>
+<script type="text/javascript" src="/livros/js/scripts.js"></script>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="entity.*, persistence.*, java.util.*"%>
@@ -24,32 +24,33 @@
 	autores = new AutorDao().findAll();
 %>
 <!-- FILE INPUT -->
-<link rel="stylesheet" href="../file-upload/css/fileinput.min.css">
-<script type="text/javascript" src="../file-upload/js/fileinput.min.js"></script>
-<script type="text/javascript" src="../file-upload/js/locales/pt-BR.js"></script>
-<script type="text/javascript" src="../js/jquery.maskedinput.min.js"></script>
+<link rel="stylesheet" href="/livros/file-upload/css/fileinput.min.css">
+<script type="text/javascript" src="/livros/file-upload/js/fileinput.min.js"></script>
+<script type="text/javascript" src="/livros/file-upload/js/locales/pt-BR.js"></script>
+<!-- MASK -->
+<script type="text/javascript" src="/livros/js/jquery.maskedinput.min.js"></script>
 <script>
 	$(document).ready(function() {
 		var max = 1500;
 		var dig = $('#descricaoLivro').val().length;
-		$('#desc-count').html(max - dig + ' caracteres restantes');
+		$('#desc-liv-count').html(max - dig + ' caracteres restantes');
 
 		$('#descricaoLivro').keyup(function() {
 			dig = $('#descricaoLivro').val().length;
 
-			$('#desc-count').html(max - dig + ' caracteres restantes');
+			$('#desc-liv-count').html(max - dig + ' caracteres restantes');
 		});
 
 		var dig2 = $('#descricaoAutor').val().length;
 		$('#desc-aut-count').html(max - dig2 + ' caracteres restantes');
 
 		$('#descricaoAutor').keyup(function() {
-			dig = $('#descricaoAutor').val().length;
+			dig2 = $('#descricaoAutor').val().length;
 
 			$('#desc-aut-count').html(max - dig2 + ' caracteres restantes');
 		});
-		
-		$('#btn-return').click(function(){
+
+		$('#btn-return').click(function() {
 			window.location = "./dashboard.jsp"
 		});
 	});
@@ -116,7 +117,7 @@
 								<textarea maxlength="1500" id="descricaoLivro"
 									name="descricaoLivro" class="form-control" required></textarea>
 								<p>
-									<label id="desc-count" class="control-label"></label>
+									<label id="desc-liv-count" class="control-label"></label>
 								</p>
 							</div>
 						</div>
@@ -137,11 +138,12 @@
 					</form>
 				</div>
 				<div class="panel-footer">
-					<p>${msgLivro}
-						<c:if test="${sucessoLivro == true }">
-							<a href="./livro.jsp?id=${idCriada}">Acessar página do livro
-								cadastrado</a>
-						</c:if>
+					<p>${param['msgLivro']}
+						<%
+							if (request.getParameter("sucessoLiro") != null) {
+								out.print("<a href=\"/livros/livro.jsp?id="+request.getParameter("idCriada") +">Acessar página do livro cadastrado</a>");
+							}
+						%>
 					</p>
 				</div>
 			</div>
@@ -152,7 +154,7 @@
 					<div class="panel-title">Cadastro de autores</div>
 				</div>
 				<div class="panel-body">
-					<form class="form-horizontal" action="Gravar?cmd=autor"
+					<form class="form-horizontal" action="../Gravar?cmd=autor"
 						method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="nomeAutor" class="control-label col-sm-2">Nome:
@@ -197,17 +199,19 @@
 					</form>
 				</div>
 				<div class="panel-footer">
-					<p>${msgAutor}
-						<c:if test="${sucessoAutor == true }">
-							<a href="./autor.jsp?id=${idCriada}">Acessar página do autor
-								cadastrado</a>
-						</c:if>
+					<p>${param['msgAutor']}
+						<%
+							if (request.getParameter("sucessoAutor") != null) {
+								out.print("<a href=\"/livros/autor.jsp?id="+ request.getParameter("idCriada") +"\">Acessar página do autor cadastrado</a>");
+							}
+						%>
 					</p>
 				</div>
 			</div>
 		</div>
 		<div class="col-xs-12">
-			<div class="btn btn-info btn-lg" onclick="parent.location = './dashboard.jsp';">
+			<div class="btn btn-info btn-lg"
+				onclick="parent.location = './index.jsp';">
 				<span class="glyphicon glyphicon-chevron-left"></span>Voltar ao
 				painel de controle
 			</div>

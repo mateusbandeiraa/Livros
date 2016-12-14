@@ -12,8 +12,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<link rel="stylesheet" href="css/style.css">
-<script type="text/javascript" src="./js/scripts.js"></script>
+<link rel="stylesheet" href="/livros/css/style.css">
+<script type="text/javascript" src="/livros/js/scripts.js"></script>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <script>
 	$(document).ready(function() {

@@ -36,15 +36,15 @@
 				data-toggle="collapse" data-target=".navbar-collapse">
 				<span class="glyphicon glyphicon-menu-hamburger"></span>
 			</button>
-			<a class="navbar-brand nav-title" href=".">Levros</a>
+			<a class="navbar-brand nav-title" href="/livros/">Levros</a>
 		</div>
 		<div class="collapse navbar-collapse" id="navCollapse">
 			<ul class="nav navbar-nav">
-				<li><a class="nav-link" href="."><span
+				<li><a class="nav-link" href="/livros/"><span
 						class="glyphicon glyphicon-home"></span> Home</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a class="nav-link" id="nav-login" href="login.jsp?ref="><span
+				<li><a class="nav-link" id="nav-login" href="/livros/login.jsp?ref="><span
 						class="glyphicon glyphicon-log-in"></span> Login</a></li>
 			</ul>
 		</div>

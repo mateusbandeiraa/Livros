@@ -41,11 +41,11 @@
 
 <div class="container">
 	<div id="main-div">
-		<img id="gandalf" src="img/Gandalf.png" width="500px">
+		<img id="gandalf" src="/livros/img/Gandalf.png" width="500px">
 		<h1 id="ysnp">YOU SHALL NOT PASS</h1>
 		<h3 id="legenda">Você precisa estar logado para acessar essa
 			página</h3>
-		<a id="link" href="./index.jsp"><h4>Voltar à página inicial</h4></a>
+		<a id="link" href="/livros/index.jsp"><h4>Voltar à página inicial</h4></a>
 	</div>
 </div>
 </body>

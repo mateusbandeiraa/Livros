@@ -39,9 +39,9 @@
 <body>
 	<div class="container">
 		<div id="main-div">
-		<img id="gandalf" src="img/gandalf_memory.gif" height="500px">
+		<img id="gandalf" src="/livros/img/gandalf_memory.gif" height="500px">
 		<h1 id="ysnp">Não há nada aqui</h1>
-		<a id="link" href="./index.jsp"><h4>Voltar à página inicial</h4></a>
+		<a id="link" href="/livros/index.jsp"><h4>Voltar à página inicial</h4></a>
 	</div>
 	</div>
 </body>
