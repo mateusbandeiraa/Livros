@@ -147,7 +147,7 @@ public class Gravar extends HttpServlet {
 
 			// TRABALHA COM A IMAGEM ENVIADA
 			Part arq = request.getPart("capaLivro");
-			
+
 			if (arq.getSize() != 0) {
 				String extArq = arq.getSubmittedFileName();
 				extArq = extArq.substring(extArq.lastIndexOf("."));
@@ -292,12 +292,16 @@ public class Gravar extends HttpServlet {
 			l.setId(idLivro);
 
 			Integer voto = Integer.valueOf(request.getParameter("nota"));
-			Voto v = new Voto(null, l, u, voto);
+			if (voto < 1) {
+				VotoDao vd = new VotoDao();
+				Voto v = vd.findByUserNBook(idUsuario, idLivro);
+				vd.delete(v);
+			} else {
+				Voto v = new Voto(null, l, u, voto);
 
-			System.out.println(v);
-			new VotoDao().create(v);
-			System.out.println("sucesso");
-			System.out.println(v);
+				System.out.println(v);
+				new VotoDao().create(v);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

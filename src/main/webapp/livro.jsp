@@ -149,18 +149,19 @@
 								</span>
 							</h2>
 							<h4 class="rate-star">
-								<form id="form-vote" action="Gravar?cmd=voto" method="post">
+								<form id="form-vote" action="/livros/Gravar?cmd=voto" method="post">
 								<input type="hidden" id="userID" name="userID">
 								<input type="hidden" id="nota" name="nota">
 								<input type="hidden" name="livroID" value="<%=l.getId() %>">
-									Sua nota: <span style="white-space: nowrap;"><span
-										class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
-										<span class="glyphicon glyphicon-star-empty star-vote"
-										id="voto2"></span> <span
-										class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
-										<span class="glyphicon glyphicon-star-empty star-vote"
-										id="voto4"></span> <span
-										class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span></span>
+									Sua nota:
+									<span style="white-space: nowrap;">
+										<span class="glyphicon glyphicon-remove-circle star-vote" id="voto0" title="Apagar voto"></span>
+									 	<span class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto2"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto4"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span>
+									</span>
 
 								</form>
 							</h4>
