@@ -1,16 +1,10 @@
 package control;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.mindrot.jbcrypt.BCrypt;
-
-import com.mysql.jdbc.jdbc2.optional.SuspendableXAConnection;
 
 import entity.Autor;
 import entity.Livro;
@@ -64,6 +56,10 @@ public class Gravar extends HttpServlet {
 
 		case "editLivro":
 			editarLivro(request, response);
+			break;
+
+		case "editAutor":
+			editarAutor(request, response);
 			break;
 
 		case "usuario":
@@ -110,7 +106,7 @@ public class Gravar extends HttpServlet {
 			while ((i = is.read()) != -1) {
 				fos.write(i);
 			}
-
+			fos.close();
 			l.setImagem(l.getIsbn() + extArq);
 			new LivroDao().create(l);
 
@@ -151,8 +147,9 @@ public class Gravar extends HttpServlet {
 
 			// TRABALHA COM A IMAGEM ENVIADA
 			Part arq = request.getPart("capaLivro");
-			String extArq = arq.getSubmittedFileName();
-			if (!extArq.equalsIgnoreCase("")) {
+			
+			if (arq.getSize() != 0) {
+				String extArq = arq.getSubmittedFileName();
 				extArq = extArq.substring(extArq.lastIndexOf("."));
 				InputStream is = arq.getInputStream();
 
@@ -163,22 +160,22 @@ public class Gravar extends HttpServlet {
 				File file = new File(CAMINHO + l.getIsbn() + extArq);
 				file.createNewFile();
 				FileOutputStream fos = new FileOutputStream(file.getPath());
-				System.out.println(file.getPath());
 				int i = 0;
 				while ((i = is.read()) != -1) {
 					fos.write(i);
 				}
-
+				fos.close();
 				l.setImagem(l.getIsbn() + extArq);
 			}
 
 			new LivroDao().update(l);
 
-			response.sendRedirect(ref + "?sucessoLivro=true&msgLivro=Livro editado com sucesso!&item=livro&id=" + l.getId());
+			response.sendRedirect(
+					ref + "?sucessoLivro=true&msgLivro=Livro editado com sucesso!&item=livro&id=" + l.getId());
 
 		} catch (Exception ex) {
-			response.sendRedirect(
-					ref + "?msgLivro=Erro: " + ex.getLocalizedMessage() + "&item=livro&id=" + request.getAttribute("livroID"));
+			response.sendRedirect(ref + "?msgLivro=Erro: " + ex.getLocalizedMessage() + "&item=livro&id="
+					+ request.getAttribute("idLivro"));
 			ex.printStackTrace();
 		}
 	}
@@ -206,7 +203,7 @@ public class Gravar extends HttpServlet {
 			while ((i = is.read()) != -1) {
 				fos.write(i);
 			}
-
+			fos.close();
 			a.setImagem("autor-" + a.getId() + extArq);
 			ad.update(a);
 
@@ -216,6 +213,48 @@ public class Gravar extends HttpServlet {
 		} catch (Exception ex) {
 			response.sendRedirect(ref + "?msgAutor=Erro: " + ex.getLocalizedMessage());
 
+			ex.printStackTrace();
+		}
+	}
+
+	protected void editarAutor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		final String CAMINHO = getServletContext().getRealPath("/").concat("/src/main/webapp/img/");
+		try {
+			// INSTANCIA E PREENCHE OBJ LIVRO
+			Autor a = new Autor();
+			a.setId(Integer.valueOf(request.getParameter("idAutor")));
+			a.setNome(request.getParameter("nomeAutor"));
+			a.setDescricao(request.getParameter("descricaoAutor"));
+			AutorDao ad = new AutorDao();
+			a.setImagem(ad.findByCode(a.getId()).getImagem());
+
+			// TRABALHA COM A IMAGEM ENVIADA
+			Part arq = request.getPart("fotoAutor");
+			System.out.println("arq.getSize() -> " + arq.getSize());
+			if (arq.getSize() != 0) {
+				String extArq = arq.getSubmittedFileName();
+				extArq = extArq.substring(extArq.lastIndexOf("."));
+				InputStream is = arq.getInputStream();
+				File file = new File(CAMINHO + "autor-" + a.getId() + extArq);
+				file.createNewFile();
+				FileOutputStream fos = new FileOutputStream(file.getPath());
+				int i = 0;
+				while ((i = is.read()) != -1) {
+					fos.write(i);
+				}
+				fos.close();
+				a.setImagem("autor-" + a.getId() + extArq);
+			}
+
+			ad.update(a);
+
+			response.sendRedirect(
+					ref + "?sucessoAutor=true&msgAutor=Autor editado com sucesso!&item=autor&id=" + a.getId());
+
+		} catch (Exception ex) {
+			response.sendRedirect(ref + "?msgAutor=Erro: " + ex.getLocalizedMessage() + "&item=autor&id="
+					+ request.getParameter("idAutor"));
 			ex.printStackTrace();
 		}
 	}

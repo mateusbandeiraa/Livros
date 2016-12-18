@@ -173,7 +173,7 @@
 					${param['msgLivro']}
 					</c:if>
 					<c:if test="${param['item'] == 'autor' }">
-					<form class="form-horizontal" action="Gravar?cmd=editAutor"
+					<form class="form-horizontal" action="/livros/Gravar?cmd=editAutor"
 						method="post" enctype="multipart/form-data">
 						<div class="form-group">
 							<label for="idAutor" class="control-label col-sm-2">ID:</label>

@@ -22,7 +22,7 @@ public class Login extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -30,7 +30,7 @@ public class Login extends HttpServlet {
 		String cmd = request.getParameter("cmd");
 		ref = request.getHeader("referer");
 		try {
-			ref = ref.substring(ref.indexOf("livros/") + 7, ref.indexOf(".jsp") + 4);
+			ref = ref.substring(ref.indexOf("livros/") + 7);
 		} catch (Exception e) {
 			ref = "index.jsp";
 		}
@@ -85,6 +85,8 @@ public class Login extends HttpServlet {
 		session.setAttribute("userID", null);
 		session.setAttribute("userProf", null);
 		request.setAttribute("logMsg", null);
+		
+		System.out.println("logout");
 
 		response.sendRedirect(ref);
 	}
