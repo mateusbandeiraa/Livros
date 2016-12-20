@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="entity.*, persistence.*"%>
+	
 <%
 	Livro l = new Livro();
 	try {
@@ -31,8 +33,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <link rel="stylesheet" href="/livros/css/style.css">
-<%@page import="entity.*, persistence.*"%>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 

@@ -12,8 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.mindrot.jbcrypt.BCrypt;
+
+import persistence.LivroDao;
 
 //4tg5g6yh6h
 @Entity
@@ -123,7 +126,8 @@ public class Autor implements Serializable, Pesquisavel {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(BCrypt.checkpw("111", "$2a$10$ZlnjrGb9MvfsO3lYghz8jOr6I19Gn5Lx73GQSs1g4.HxF03jR3HHi"));
+		LivroDao ld = new LivroDao();
+		ld.findAll();
 	}
 
 }

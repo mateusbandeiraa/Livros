@@ -1,5 +1,4 @@
-<%@page
-	import="java.util.List, java.util.ArrayList, entity.*, persistence.*"%>
+<%@page import="java.util.List, java.util.ArrayList, entity.*, persistence.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -55,23 +54,6 @@
 <script>
 	$(document).ready(function() {
 		var max = 1500;
-		var dig = $('#descricaoLivro').val().length;
-		$('#desc-liv-count').html(max - dig + ' caracteres restantes');
-
-		$('#descricaoLivro').keyup(function() {
-			dig = $('#descricaoLivro').val().length;
-
-			$('#desc-liv-count').html(max - dig + ' caracteres restantes');
-		});
-
-		var dig2 = $('#descricaoAutor').val().length;
-		$('#desc-aut-count').html(max - dig2 + ' caracteres restantes');
-
-		$('#descricaoAutor').keyup(function() {
-			dig2 = $('#descricaoAutor').val().length;
-
-			$('#desc-aut-count').html(max - dig2 + ' caracteres restantes');
-		});
 		
 		$('#btn-return').click(function(){
 			window.location = "./dashboard.jsp"
@@ -150,6 +132,17 @@
 								<p>
 									<label id="desc-liv-count" class="control-label"></label>
 								</p>
+								<script>
+								var max = 1500;
+								var dig = $('#descricaoLivro').val().length;
+								$('#desc-liv-count').html(max - dig + ' caracteres restantes');
+
+								$('#descricaoLivro').keyup(function() {
+									dig = $('#descricaoLivro').val().length;
+
+									$('#desc-liv-count').html(max - dig + ' caracteres restantes');
+								});
+								</script>
 							</div>
 						</div>
 						<div class="form-group">
@@ -166,10 +159,27 @@
 								</script>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-primary btn-block">
-							<span class="glyphicon glyphicon-floppy-disk"></span> Salvar
-						</button>
-					</form>
+						<div class="col-sm-8">
+							<button type="submit" class="btn btn-primary btn-block">
+								<span class="glyphicon glyphicon-floppy-disk"></span> Salvar
+							</button>
+						</div>
+						</form>
+						<div class="col-sm-4">
+							<form action="/livros/Gravar?cmd=deleteLivro&id=${param['id'] }" method="POST" id="form-apagar-livro">
+								<button type="button" class="btn btn-danger btn-block" id="btn-apagar-livro">
+									<span class="glyphicon glyphicon-remove-circle"></span> Apagar
+								</button>
+							</form>
+							<script>
+								$('#btn-apagar-livro').click(function(){
+									if(confirm("Deseja realmente apagar esse livro?")){
+										$("#form-apagar-livro").submit();
+									}
+								});
+							</script>
+						</div>
+					
 					${param['msgLivro']}
 					</c:if>
 					<c:if test="${param['item'] == 'autor' }">
@@ -217,11 +227,38 @@
 								<p>
 									<label id="desc-aut-count" class="control-label"></label>
 								</p>
+								<script>
+								var dig2 = $('#descricaoAutor').val().length;
+								$('#desc-aut-count').html(max - dig2 + ' caracteres restantes');
+
+								$('#descricaoAutor').keyup(function() {
+									dig2 = $('#descricaoAutor').val().length;
+
+									$('#desc-aut-count').html(max - dig2 + ' caracteres restantes');
+								});
+								</script>
 							</div>
 						</div>
-						<button type="submit" class="btn btn-primary btn-block">
-							<span class="glyphicon glyphicon-floppy-disk"></span> Salvar
-						</button>
+						<div class="col-sm-8">
+							<button type="submit" class="btn btn-primary btn-block">
+								<span class="glyphicon glyphicon-floppy-disk"></span> Salvar
+							</button>
+						</div>
+						</form>
+						<div class="col-sm-4">
+							<form action="/livros/Gravar?cmd=deleteAutor&id=${param['id'] }" method="POST" id="form-apagar-autor">
+								<button type="button" class="btn btn-danger btn-block" id="btn-apagar-autor">
+									<span class="glyphicon glyphicon-remove-circle"></span> Apagar
+								</button>
+							</form>
+							<script>
+								$('#btn-apagar-autor').click(function(){
+									if(confirm("Deseja realmente apagar esse autor?")){
+										$("#form-apagar-autor").submit();
+									}
+								});
+							</script>
+						</div>
 						</form>
 						${param['msgAutor']}
 					</c:if>

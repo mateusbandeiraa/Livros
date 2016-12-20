@@ -62,6 +62,14 @@ public class Gravar extends HttpServlet {
 			editarAutor(request, response);
 			break;
 
+		case "deleteLivro":
+			apagarLivro(request, response);
+			break;
+
+		case "deleteAutor":
+			apagarAutor(request, response);
+			break;
+
 		case "usuario":
 			gravarUsuario(request, response);
 			break;
@@ -77,7 +85,7 @@ public class Gravar extends HttpServlet {
 
 	protected void gravarLivro(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		final String CAMINHO = getServletContext().getRealPath("/").concat("/src/main/webapp/img/");
+		final String CAMINHO = getServletContext().getRealPath("/").concat("src/main/webapp/img/");
 		try {
 			// INSTANCIA E PREENCHE OBJ LIVRO
 			Livro l = new Livro();
@@ -180,9 +188,25 @@ public class Gravar extends HttpServlet {
 		}
 	}
 
+	protected void apagarLivro(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Livro l = new Livro();
+			l.setId(Integer.valueOf(request.getParameter("id")));
+			new LivroDao().delete(l);
+
+			response.sendRedirect("/livros/adm/");
+
+		} catch (Exception ex) {
+			response.sendRedirect(ref + "?msgLivro=Erro: " + ex.getLocalizedMessage() + "&item=livro&id="
+					+ request.getParameter("id"));
+			ex.printStackTrace();
+		}
+	}
+
 	protected void gravarAutor(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		final String CAMINHO = getServletContext().getRealPath("/").concat("/src/main/webapp/img/");
+		final String CAMINHO = getServletContext().getRealPath("/").concat("src/main/webapp/img/");
 		try {
 			// INSTANCIA E PREENCHE OBJ LIVRO
 			Autor a = new Autor();
@@ -190,22 +214,30 @@ public class Gravar extends HttpServlet {
 			a.setDescricao(request.getParameter("descricaoAutor"));
 			AutorDao ad = new AutorDao();
 			ad.create(a);
+
 			// TRABALHA COM A IMAGEM ENVIADA
-			Part arq = request.getPart("fotoAutor");
-			String extArq = arq.getSubmittedFileName();
-			extArq = extArq.substring(extArq.lastIndexOf("."));
-			InputStream is = arq.getInputStream();
-			File file = new File(CAMINHO + "autor-" + a.getId() + extArq);
-			file.createNewFile();
-			FileOutputStream fos = new FileOutputStream(file.getPath());
-			System.out.println(file.getPath());
-			int i = 0;
-			while ((i = is.read()) != -1) {
-				fos.write(i);
+			try {
+				Part arq = request.getPart("fotoAutor");
+				String extArq = arq.getSubmittedFileName();
+				extArq = extArq.substring(extArq.lastIndexOf("."));
+				InputStream is = arq.getInputStream();
+				File diretorio = new File(CAMINHO);
+				if (!diretorio.isDirectory())
+					diretorio.mkdirs();
+				File file = new File(CAMINHO + "autor-" + a.getId() + extArq);
+				file.createNewFile();
+				FileOutputStream fos = new FileOutputStream(file.getPath());
+				int i = 0;
+				while ((i = is.read()) != -1) {
+					fos.write(i);
+				}
+				fos.close();
+				a.setImagem("autor-" + a.getId() + extArq);
+				ad.update(a);
+			} catch (Exception ex) {
+				ad.delete(a);
+				throw ex;
 			}
-			fos.close();
-			a.setImagem("autor-" + a.getId() + extArq);
-			ad.update(a);
 
 			response.sendRedirect(
 					ref + "?sucessoAutor=true&msgAutor=Dados gravados com sucesso!&idCriada=" + a.getId());
@@ -255,6 +287,22 @@ public class Gravar extends HttpServlet {
 		} catch (Exception ex) {
 			response.sendRedirect(ref + "?msgAutor=Erro: " + ex.getLocalizedMessage() + "&item=autor&id="
 					+ request.getParameter("idAutor"));
+			ex.printStackTrace();
+		}
+	}
+
+	protected void apagarAutor(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Autor a = new Autor();
+			a.setId(Integer.valueOf(request.getParameter("id")));
+			new AutorDao().delete(a);
+
+			response.sendRedirect("/livros/adm/");
+
+		} catch (Exception ex) {
+			response.sendRedirect(ref + "?msgAutor=Erro: " + ex.getLocalizedMessage() + "&item=autor&id="
+					+ request.getParameter("id"));
 			ex.printStackTrace();
 		}
 	}

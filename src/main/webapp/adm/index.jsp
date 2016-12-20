@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page
-	import="java.util.List, java.util.ArrayList, entity.*, persistence.*"%>
+<%@page import="java.util.List, java.util.ArrayList, entity.*, persistence.*"%>
 <%
 	List<Livro> livros = new ArrayList<>();
 	List<Autor> autores = new ArrayList<>();
@@ -37,6 +36,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <link rel="stylesheet" href="/livros/css/style.css">
+<style>
+.modal .modal-dialog .modal-content {
+	background-color: #000;
+}
+
+.close {
+	text-color: #eeeeee;
+}
+</style>
 <title>ADMIN DASHBOARD</title>
 <script>
 $(document).ready(function(){
@@ -83,36 +91,55 @@ $(document).ready(function(){
 								<div class="panel-title">Editar</div>
 							</div>
 							<div class="panel-body">
-							<div class="row">
-								<div class="col-md-6">
-									<select id="selectLivro" class="selectpicker" data-width="100%"
-										data-live-search="true" title="Selecione um livro..."
-										data-dropup-auto="false" data-container=".body">
-										<c:forEach items="<%=livros%>" var="livro">
-											<option value="${livro.id }">${livro.nome }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="col-md-6">
-									<div class="btn btn-primary btn-block" id="btn-edit-livro">Editar livro...</div>
-								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<select id="selectLivro" class="selectpicker"
+											data-width="100%" data-live-search="true"
+											title="Selecione um livro..." data-dropup-auto="false"
+											data-container=".body">
+											<c:forEach items="<%=livros%>" var="livro">
+												<option value="${livro.id }">${livro.nome }</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<div class="btn btn-primary btn-block" id="btn-edit-livro">Editar
+											livro...</div>
+									</div>
 								</div>
 								<div class="row" style="margin-top: 20px;">
-								<div class="col-md-6">
-									<select id="selectAutor" class="selectpicker" data-width="100%"
-										data-live-search="true" title="Selecione um autor..."
-										data-dropup-auto="false" data-container=".body">
-										<c:forEach items="<%=autores%>" var="autor">
-											<option value="${autor.id }">${autor.nome }</option>
-										</c:forEach>
-									</select>
-								</div>
-								<div class="col-md-6">
-									<div class="btn btn-primary btn-block" id="btn-edit-autor">Editar autor...</div>
-								</div>
+									<div class="col-md-6">
+										<select id="selectAutor" class="selectpicker"
+											data-width="100%" data-live-search="true"
+											title="Selecione um autor..." data-dropup-auto="false"
+											data-container=".body">
+											<c:forEach items="<%=autores%>" var="autor">
+												<option value="${autor.id }">${autor.nome }</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<div class="btn btn-primary btn-block" id="btn-edit-autor">Editar
+											autor...</div>
+									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a href="#" data-toggle="modal" data-target="#modal-the-book">The
+			Book is on the table.</a>
+		<div class="modal fade" id="modal-the-book" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" data-dismiss="modal">
+							<span class="glyphicon glyphicon-remove" style="color: #eee"></span>
+						</button>
+
+						<img src="/livros/img/the_book_is_on_the_table.png">
 					</div>
 				</div>
 			</div>

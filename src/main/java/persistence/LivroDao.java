@@ -2,64 +2,20 @@ package persistence;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import entity.Autor;
 import entity.Livro;
 
-public class LivroDao {
-	private Session session;
-	private Transaction transaction;
-	private Query query;
-	private Criteria criteria;
-
-	public void create(Livro l) {
-		session = HibernateUtil.getSessionFactory().openSession();
-		transaction = session.beginTransaction();
-		session.save(l);
-		transaction.commit();
-		session.close();
+public class LivroDao extends Dao<Livro>{
+	
+	public LivroDao() {
+		super(new Livro());
 	}
 
-	public void update(Livro l) {
-		session = HibernateUtil.getSessionFactory().openSession();
-		transaction = session.beginTransaction();
-		session.update(l);
-		transaction.commit();
-		session.close();
-	}
-
-	public void delete(Livro l) {
-		session = HibernateUtil.getSessionFactory().openSession();
-		transaction = session.beginTransaction();
-		session.delete(l);
-		transaction.commit();
-		session.close();
-	}
-
-	public Livro findByCode(Integer cod) {
-		session = HibernateUtil.getSessionFactory().openSession();
-		Livro l = (Livro) session.get(new Livro().getClass(), cod);
-		session.close();
-		return l;
-	}
-
+	
 	public List<Livro> findByAuthor(Autor a) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		query = session.createQuery("from Livro where autor_id = :id");
 		query.setParameter("id", a.getId());
-		@SuppressWarnings("unchecked")
-		List<Livro> livros = query.list();
-		session.close();
-		return livros;
-	}
-
-	public List<Livro> findAll() {
-		session = HibernateUtil.getSessionFactory().openSession();
-		query = session.createQuery("from Livro");
 		@SuppressWarnings("unchecked")
 		List<Livro> livros = query.list();
 		session.close();
@@ -97,7 +53,6 @@ public class LivroDao {
 				query.setString(i, nomes[i]);
 			}
 		}
-		System.out.println(query.getQueryString());
 		@SuppressWarnings("unchecked")
 		List<Livro> livros = query.list();
 		session.close();
@@ -110,8 +65,9 @@ public class LivroDao {
 		query.setString("nome", nome);
 		Livro livro = (Livro) query.uniqueResult();
 		session.close();
-		System.out.println(livro);
 		return livro;
 	}
+	
+	
 
 }
