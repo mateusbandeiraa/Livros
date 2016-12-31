@@ -24,21 +24,10 @@
 %>
 <!-- FILE INPUT -->
 <link rel="stylesheet" href="/livros/file-upload/css/fileinput.min.css">
-<script type="text/javascript"
-	src="/livros/file-upload/js/fileinput.min.js"></script>
-<script type="text/javascript"
-	src="/livros/file-upload/js/locales/pt-BR.js"></script>
+<script type="text/javascript" src="/livros/file-upload/js/fileinput.min.js"></script>
+<script type="text/javascript" src="/livros/file-upload/js/locales/pt-BR.js"></script>
 <!-- MASK -->
-<script type="text/javascript"
-	src="/livros/js/jquery.maskedinput.min.js"></script>
-<!-- SELECT -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/i18n/defaults-*.min.js"></script>
-<!-- /SELECT -->
+<script type="text/javascript" src="/livros/js/jquery.maskedinput.min.js"></script>
 <script>
 	$(document).ready(function() {
 		var max = 1500;
@@ -134,10 +123,7 @@
 						<div class="form-group">
 							<label for="autor" class="control-label col-sm-2">Autor:</label>
 							<div class="col-sm-10">
-								<select class="form-control selectpicker" data-width="100%"
-									id="autor" name="autor" required data-live-search="true"
-									title="Selecione um autor..." data-dropup-auto="false"
-									data-container=".body">
+								<select class="form-control" id="autor" name="autor" required>
 									<option value="" selected>Selecione um autor</option>
 									<c:forEach items="<%=autores%>" var="autor">
 										<option value="${autor.id}">${autor.nome}</option>
@@ -154,8 +140,7 @@
 					<p>${param['msgLivro']}
 						<%
 							if (request.getParameter("sucessoLivro") != null) {
-								out.print("<a href=\"/livros/livro.jsp?id=" + request.getParameter("idCriada")
-										+ "\">Acessar página do livro cadastrado</a>");
+								out.print("<a href=\"/livros/livro.jsp?id="+request.getParameter("idCriada") +"\">Acessar página do livro cadastrado</a>");
 							}
 						%>
 					</p>
@@ -216,15 +201,20 @@
 					<p>${param['msgAutor']}
 						<%
 							if (request.getParameter("sucessoAutor") != null) {
-								out.print("<a href=\"/livros/autor.jsp?id=" + request.getParameter("idCriada")
-										+ "\">Acessar página do autor cadastrado</a>");
+								out.print("<a href=\"/livros/autor.jsp?id="+ request.getParameter("idCriada") +"\">Acessar página do autor cadastrado</a>");
 							}
 						%>
 					</p>
 				</div>
 			</div>
 		</div>
-		<t:return></t:return>
+		<div class="col-xs-12">
+			<div class="btn btn-info btn-lg"
+				onclick="parent.location = './index.jsp';">
+				<span class="glyphicon glyphicon-chevron-left"></span>Voltar ao
+				painel de controle
+			</div>
+		</div>
 	</div>
 </body>
 </html>

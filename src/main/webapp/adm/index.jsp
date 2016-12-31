@@ -80,7 +80,7 @@ $(document).ready(function(){
 							livros e autores
 						</div>
 						<div class="btn btn-lg btn-block btn-info"
-							onclick="parent.location = './users.jsp'" style="margin-top: 15px;">
+							onclick="parent.location = //EDITAR//" style="margin-top: 15px;">
 							<span class="glyphicon glyphicon-user"></span> Informações de
 							usuários
 						</div>

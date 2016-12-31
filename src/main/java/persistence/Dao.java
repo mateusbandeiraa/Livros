@@ -46,7 +46,7 @@ public class Dao <Classe>{
 	public List<Classe> findAll(){
 		session = HibernateUtil.getSessionFactory().openSession();
 		@SuppressWarnings("unchecked")
-		List<Classe> lst = session.createCriteria(classe.getClass().getName()).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		List<Classe> lst = session.createCriteria(classe.getClass().getName()).list(); //TODO PODE DAR ERRADO
 		session.close();
 		return lst;
 	}
@@ -54,7 +54,7 @@ public class Dao <Classe>{
 	public Classe findByCode(int cod){
 		session = HibernateUtil.getSessionFactory().openSession();
 		@SuppressWarnings("unchecked")
-		Classe c = (Classe) session.get(classe.getClass().getName(), cod);
+		Classe c = (Classe) session.get(classe.getClass().getName(), cod); //TODO PODE DAR ERRADO
 		session.close();
 		return c;
 	}

@@ -3,24 +3,11 @@ package persistence;
 import java.util.List;
 
 import entity.Autor;
-import entity.Livro;
 
 public class AutorDao extends Dao<Autor>{
 	
 	public AutorDao() {
 		super(new Autor());
-	}
-	
-	@Override
-	public void delete(Autor c) {
-		// Apaga os livros do autor
-		LivroDao ld = new LivroDao();
-		List<Livro> livros = ld.findByAuthor(c);
-		for(Livro l : livros){
-			ld.delete(l);
-		}
-		// Apaga o Autor
-		super.delete(c);
 	}
 
 		public List<Autor> findByName(String nome) {

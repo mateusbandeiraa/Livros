@@ -12,11 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
+import org.mindrot.jbcrypt.BCrypt;
 
-import persistence.AutorDao;
 import persistence.LivroDao;
 
+//4tg5g6yh6h
 @Entity
 public class Autor implements Serializable, Pesquisavel {
 
@@ -33,13 +35,21 @@ public class Autor implements Serializable, Pesquisavel {
 	@Column
 	private String imagem;
 	private transient Double mediaAutor = 0.;
-	@OneToMany(mappedBy = "autor", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "autor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Livro> livros;
 
 	public void addLivro(Livro l) {
 		if (livros == null)
 			livros = new ArrayList<Livro>();
 		livros.add(l);
+	}
+
+	public void removeLivro(Livro l) {
+		try {
+			livros.remove(l);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public Autor() {
@@ -114,30 +124,10 @@ public class Autor implements Serializable, Pesquisavel {
 	public void setLivros(List<Livro> livros) {
 		this.livros = livros;
 	}
-
+	
 	public static void main(String[] args) {
-		AutorDao ad = new AutorDao();
 		LivroDao ld = new LivroDao();
-
-		Autor a = new Autor(null, "Tolkien", null);
-		Livro l1 = new Livro();
-		l1.setNome("O Hobbit");
-		l1.setAutor(a);
-		Livro l2 = new Livro();
-		l2.setNome("O Senhor dos Aneis: A sociedade do Anel");
-		l2.setAutor(a);
-
-		ad.create(a);
-		ld.create(l1);
-		ld.create(l2);
-
-		System.out.println("Autor e livros criados.");
-
-		ad.delete(a);
-
-		System.out.println("Autor apagado.");
-		System.out.println("Autores: " + ad.findAll());
-		System.out.println("Livros: " + ld.findAll());
+		ld.findAll();
 	}
 
 }

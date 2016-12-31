@@ -1,10 +1,23 @@
-insert into Usuario values(null, '1@gmail.com', 'teste1', 'usu', 'aaa');
-insert into Usuario values(null, '2@gmail.com', 'teste2', 'usu', 'aaa');
-insert into Usuario values(null, '3@gmail.com', 'teste3', 'usu', 'aaa');
-insert into Usuario values(null, '4@gmail.com', 'teste4', 'usu', 'aaa');
-insert into Usuario values(null, '5@gmail.com', 'teste5', 'usu', 'aaa');
-insert into Usuario values(null, '6@gmail.com', 'teste6', 'usu', 'aaa');
-insert into Usuario values(null, '7@gmail.com', 'teste7', 'usu', 'aaa');
-insert into Usuario values(null, '8@gmail.com', 'teste8', 'usu', 'aaa');
-insert into Usuario values(null, '9@gmail.com', 'teste9', 'usu', 'aaa');
-insert into Usuario values(null, '10@gmail.com', 'teste10', 'usu', 'aaa');
+insert into Autor values(null, null, null, 'autor 1');
+insert into Autor values(null, null, null, 'autor 2');
+insert into Autor values(null, null, null, 'autor 3');
+insert into Autor values(null, null, null, 'autor 4');
+insert into Autor values(null, null, null, 'autor 5');
+insert into Autor values(null, null, null, 'autor 6');
+
+insert into Livro values(null, null, null, null, null, 'livro 1', 1);
+insert into Livro values(null, null, null, null, null, 'livro 2', 1);
+insert into Livro values(null, null, null, null, null, 'livro 3', 2);
+insert into Livro values(null, null, null, null, null, 'livro 4', 3);
+insert into Livro values(null, null, null, null, null, 'livro 5', 4);
+insert into Livro values(null, null, null, null, null, 'livro 6', 5);
+insert into Livro values(null, null, null, null, null, 'livro 7', 6);
+insert into Livro values(null, null, null, null, null, 'livro 8', 6);
+insert into Livro values(null, null, null, null, null, 'livro 9', 2);
+insert into Livro values(null, null, null, null, null, 'livro 10', 2);
+
+insert into Usuario values(null, null, 'usuario 1', 'usu', null);
+insert into Usuario values(null, null, 'usuario 2', 'usu', null);
+insert into Usuario values(null, null, 'usuario 3', 'usu', null);
+
+insert into voto values(null, 5, 1, 1);

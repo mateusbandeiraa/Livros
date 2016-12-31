@@ -39,7 +39,7 @@ public class Livro implements Serializable, Pesquisavel {
 	@ManyToOne
 	private Autor autor;
 
-	@OneToMany(mappedBy = "livro", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "livro", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Voto> votos;
 
 	private transient Double mediaVotos;

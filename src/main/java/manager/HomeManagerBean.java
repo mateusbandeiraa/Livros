@@ -46,6 +46,8 @@ public class HomeManagerBean {
 				somaMediaLivros += new VotoDao().getMediaLivro(l);
 			}
 			Double media = somaMediaLivros / a.getLivros().size();
+			System.out.println("Autor: " + a.getNome());
+			System.out.println("Media: " + media);
 			if (!media.isNaN()) {
 				a.setMediaAutor(media);
 			} else {
@@ -53,7 +55,6 @@ public class HomeManagerBean {
 			}
 		}
 		topAutores.sort(Comparator.comparing(Autor::getMediaAutor).reversed());
-		System.out.println(topAutores);
 		if (topAutores.size() < 10) {
 			return topAutores;
 		}
