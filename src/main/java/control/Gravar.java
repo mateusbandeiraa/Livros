@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -32,12 +33,13 @@ public class Gravar extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8"); // Para acertar os acentos
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/plain");
 		String cmd = request.getParameter("cmd");
 		ref = request.getHeader("referer");
 		try {
@@ -54,12 +56,20 @@ public class Gravar extends HttpServlet {
 			gravarAutor(request, response);
 			break;
 
+		case "usuario":
+			gravarUsuario(request, response);
+			break;
+
 		case "editLivro":
 			editarLivro(request, response);
 			break;
 
 		case "editAutor":
 			editarAutor(request, response);
+			break;
+
+		case "editUsuario":
+			editarUsuario(request, response);
 			break;
 
 		case "deleteLivro":
@@ -70,8 +80,8 @@ public class Gravar extends HttpServlet {
 			apagarAutor(request, response);
 			break;
 
-		case "usuario":
-			gravarUsuario(request, response);
+		case "ajaxDeleteUsuario":
+			ajaxApagarUsuario(request, response);
 			break;
 
 		case "voto":
@@ -322,9 +332,46 @@ public class Gravar extends HttpServlet {
 				u.setPerfil("adm");
 
 			new UsuarioDao().create(u);
-			response.sendRedirect(ref + "?msgUsuario=Cadastro+efetuado+com+sucesso");
+			response.sendRedirect(ref + "?msgUsuario=Cadastro efetuado com sucesso!");
 		} catch (Exception ex) {
 			response.sendRedirect(ref + "?msgUsuario=" + ex.getMessage());
+		}
+	}
+
+	protected void editarUsuario(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Usuario u = new Usuario();
+			u.setId(Integer.valueOf(request.getParameter("idUsuario")));
+			u.setNome(request.getParameter("nomeUsuario"));
+			u.setEmail(request.getParameter("emailUsuario"));
+			String senha = request.getParameter("senhaUsuario");
+			senha = BCrypt.hashpw(senha, BCrypt.gensalt());
+			u.setSenha(senha);
+			u.setPerfil(request.getParameter("perfilUsuario"));
+
+			if (u.getEmail().equalsIgnoreCase("admin@admin.com"))
+				u.setPerfil("adm");
+
+			new UsuarioDao().update(u);
+			response.sendRedirect(ref + "?item=usuario&id=" + u.getId() +"&msgUsuario="+ URLEncoder.encode("Usuário editado com sucesso!", "UTF-8"));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			response.sendRedirect(
+					ref + "?item=usuario&id=" + request.getParameter("idUsuario") + "msgUsuario=" + ex.getMessage());
+		}
+	}
+
+	protected void ajaxApagarUsuario(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Usuario u = new Usuario();
+			u.setId(Integer.valueOf(request.getParameter("idUsuario")));
+
+			new UsuarioDao().delete(u);
+			response.getWriter().write("Usuario apagado com sucesso");
+		} catch (Exception ex) {
+			response.getWriter().write("Erro: " + ex.getMessage());
 		}
 	}
 

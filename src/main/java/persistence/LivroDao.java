@@ -4,14 +4,27 @@ import java.util.List;
 
 import entity.Autor;
 import entity.Livro;
+import entity.Voto;
 
-public class LivroDao extends Dao<Livro>{
-	
+public class LivroDao extends Dao<Livro> {
+
 	public LivroDao() {
 		super(new Livro());
 	}
 
-	
+	@Override
+	public void delete(Livro c) {
+		// Apaga os votos do livro
+		VotoDao vd = new VotoDao();
+		List<Voto> votos = vd.findByBook(c.getId());
+
+		for (Voto v : votos) {
+			vd.delete(v);
+		}
+		// Apaga o Livro
+		super.delete(c);
+	}
+
 	public List<Livro> findByAuthor(Autor a) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		query = session.createQuery("from Livro where autor_id = :id");
@@ -25,14 +38,16 @@ public class LivroDao extends Dao<Livro>{
 	public List<Livro> findListByName(String nome) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		if (!nome.contains(" ")) {
-			if (nome.length() != 1) { //Caso o termo tenha apenas uma letra, retorna resultados dessa maneira
+			if (nome.length() != 1) { // Caso o termo tenha apenas uma letra,
+										// retorna resultados dessa maneira
 				query = session.createQuery("from Livro L where L.nome LIKE '%'|| :nome || '%'");
 				query.setParameter("nome", nome);
 			} else {
-				query = session.createQuery("from Livro L where L.nome LIKE :nome || ' %' OR L.nome LIKE '% '|| :nome || ' %' ");
+				query = session.createQuery(
+						"from Livro L where L.nome LIKE :nome || ' %' OR L.nome LIKE '% '|| :nome || ' %' ");
 				query.setParameter("nome", nome);
 			}
-			
+
 		} else {
 			String[] nomes = nome.split(" ");
 			String quer = "from Livro L where";
@@ -40,7 +55,9 @@ public class LivroDao extends Dao<Livro>{
 			for (int i = 0; i < nomes.length; i++) {
 				if (i != 0)
 					quer += " OR";
-				if (nomes[i].length() != 1) { //Caso o termo tenha apenas uma letra, retorna resultados dessa maneira
+				if (nomes[i].length() != 1) { // Caso o termo tenha apenas uma
+												// letra, retorna resultados
+												// dessa maneira
 					quer += " L.nome like '%' || ? || '%'";
 				} else {
 					quer += " L.nome like ?";
@@ -67,7 +84,5 @@ public class LivroDao extends Dao<Livro>{
 		session.close();
 		return livro;
 	}
-	
-	
 
 }
