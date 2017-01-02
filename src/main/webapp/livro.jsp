@@ -20,6 +20,7 @@
 		a.setDescricao(desc.substring(0, 140) + "...");
 	}
 	List<Comentario> comentarios = new ComentarioDao().findByBook(l.getId());
+	request.setAttribute("temComentarios", !comentarios.isEmpty());
 %>
 <html>
 <head>
@@ -225,40 +226,54 @@
 					<div class="panel-title">Comentários</div>
 				</div>
 				<div class="panel-body">
-					<c:forEach items="<%=comentarios%>" var="comentario">
-						<div class="panel panel-primary">
-							<div class="panel-body">
-								<h4>
-									<c:if test="${userID == comentario.usuario.id || userProf == 'adm'}">
-										<span class="glyphicon glyphicon-remove-circle remove-com-btn" id="remove${comentario.id }"></span>
-									</c:if>${comentario.usuario.nome }
-									disse:
-								</h4>
-								<p>${comentario.content }</p>
-							</div>
-						</div>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${temComentarios == false}">
+							<h3>Esse livro ainda não tem comentários.</h3>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items="<%=comentarios%>" var="comentario">
+								<div class="panel panel-primary">
+									<div class="panel-body">
+										<h4>
+											<c:if test="${userID == comentario.usuario.id || userProf == 'adm'}">
+												<span class="glyphicon glyphicon-remove-circle remove-com-btn" id="remove${comentario.id }"></span>
+											</c:if>
+											${comentario.usuario.nome }	disse:
+										</h4>
+										<p>${comentario.content }</p>
+									</div>
+								</div>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</div>
-				<c:if test="${userID != null }">
-					<div class="panel-footer">
-						<form class="horizontal-form" method="POST"
-							action="/livros/Gravar?cmd=comentario">
-							<input type="hidden" name="livroID" value="<%=l.getId()%>">
-							<input type="hidden" name="userID"
-								value="<%=session.getAttribute("userID")%>">
-							<div class="form-group">
-								<textarea maxlength="500" id="commentContent"
-									name="commentContent" class="form-control" required
-									placeholder="O que você achou desse livro?"></textarea>
-								<p style="margin-top: 5px">
-									<label id="comm-cont-count" class="control-label"></label>
-									<button type="submit" class="btn btn-primary"
-										style="position: absolute; right: 30px;">Comentar</button>
-								</p>
-							</div>
-						</form>
-					</div>
-				</c:if>
+				<div class="panel-footer">
+					<c:choose>
+						<c:when test="${userID != null }">
+
+							<form class="horizontal-form" method="POST"
+								action="/livros/Gravar?cmd=comentario">
+								<input type="hidden" name="livroID" value="<%=l.getId()%>">
+								<input type="hidden" name="userID"
+									value="<%=session.getAttribute("userID")%>">
+								<div class="form-group">
+									<textarea maxlength="500" id="commentContent"
+										name="commentContent" class="form-control" required
+										placeholder="O que você achou desse livro?"></textarea>
+									<p style="margin-top: 5px">
+										<label id="comm-cont-count" class="control-label"></label>
+										<button type="submit" class="btn btn-primary"
+											style="position: absolute; right: 30px;">Comentar</button>
+									</p>
+								</div>
+							</form>
+
+						</c:when>
+						<c:otherwise>
+							<h4>Faça o login para comentar.</h4>
+						</c:otherwise>
+					</c:choose>
+				</div>
 			</div>
 		</div>
 	</div>
