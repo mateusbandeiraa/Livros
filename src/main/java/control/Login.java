@@ -87,8 +87,12 @@ public class Login extends HttpServlet {
 		request.setAttribute("logMsg", null);
 		
 		System.out.println("logout");
-
-		response.sendRedirect(ref);
+		if(!ref.contains("adm")){
+			response.sendRedirect(ref);	
+		}else{
+			response.sendRedirect("/livros/");
+		}
+		
 	}
 
 }

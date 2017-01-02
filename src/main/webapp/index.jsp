@@ -32,7 +32,7 @@
 <body>
 	<!-- CABEÇALHO -->
 	<div class="jumbotron">
-		<div class="container">
+		<div class="container hidden-sm-down">
 			<h1>Levros</h1>
 			<h4>O menor banco de dados de livros na internet.</h4>
 			<div class="container" id="con-search">
@@ -54,7 +54,7 @@
 		</div>
 	</div>
 	<!-- CORPO -->
-	<div class="col-md-3 hidden-sm hidden-xs">
+	<div class="col-md-3 hidden-sm-down">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Top autores</div>
@@ -83,7 +83,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6 col-sm-9">
+	<div class="col-md-6">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<div class="panel-title">Top Livros</div>
@@ -111,7 +111,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-3">
+	<div class="col-md-3">
 		<div class="panel panel-primary">
 			<c:if test="${userID == null}">
 				<div class="panel-heading">

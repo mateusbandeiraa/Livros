@@ -3,6 +3,7 @@ package persistence;
 import java.util.List;
 
 import entity.Autor;
+import entity.Comentario;
 import entity.Livro;
 import entity.Voto;
 
@@ -20,6 +21,12 @@ public class LivroDao extends Dao<Livro> {
 
 		for (Voto v : votos) {
 			vd.delete(v);
+		}
+		// Apaga os comemtários do livro
+		ComentarioDao cd = new ComentarioDao();
+		List<Comentario> comentarios = cd.findByBook(c.getId());
+		for (Comentario com : comentarios) {
+			cd.delete(com);
 		}
 		// Apaga o Livro
 		super.delete(c);

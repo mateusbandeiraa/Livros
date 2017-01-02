@@ -320,8 +320,7 @@
 									</select>
 
 									<script>
-								$('#perfilUsuario').selectpicker('val', '<%=u.getPerfil()%>
-										');
+								$('#perfilUsuario').selectpicker('val', '<%=u.getPerfil()%>');
 									</script>
 								</div>
 							</div>

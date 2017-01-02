@@ -2,6 +2,7 @@ package persistence;
 
 import java.util.List;
 
+import entity.Comentario;
 import entity.Usuario;
 import entity.Voto;
 
@@ -18,6 +19,12 @@ public class UsuarioDao extends Dao<Usuario> {
 		List<Voto> votos = vd.findByUser(c.getId());
 		for (Voto v : votos) {
 			vd.delete(v);
+		}
+		// Apaga os comemtários do usuario
+		ComentarioDao cd = new ComentarioDao();
+		List<Comentario> comentarios = cd.findByUser(c.getId());
+		for (Comentario com : comentarios) {
+			cd.delete(com);
 		}
 		// Apaga o usuario
 		super.delete(c);

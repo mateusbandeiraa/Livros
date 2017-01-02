@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="/livros/css/style.css">
 <script type="text/javascript" src="/livros/js/scripts.js"></script>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
 	$(document).ready(function() {
 		$('form').on('submit', function() {
@@ -73,7 +74,9 @@
 						<div id="senhasDif" class="alert alert-danger" style="display:none;">As senhas não coincidem!</div>
 						<button type="submit" class="btn btn-success btn-block">Cadastrar</button>
 					</form>
-					${param["msgUsuario"]}
+					<c:if test="${param['msgUsuario'] != null }">
+					${param['msgUsuario']} <a href="/livros/">Ir para a página inicial</a>
+					</c:if>
 				</div>
 			</div>
 		</div>

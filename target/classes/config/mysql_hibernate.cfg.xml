@@ -18,6 +18,7 @@
 		<mapping class="entity.Autor" />
 		<mapping class="entity.Usuario"/>
 		<mapping class="entity.Voto"/>
+		<mapping class="entity.Comentario"/>
 
 	</session-factory>
 </hibernate-configuration>

@@ -1,5 +1,4 @@
-$(document).ready(
-		function() {
+$(document).ready(function() {
 			$('.search-field').focus(function() {
 				$('#search-group').css("width", "100%");
 			});

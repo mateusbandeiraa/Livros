@@ -30,6 +30,9 @@ public class Usuario implements Serializable {
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
 	private List<Voto> votos;
+	
+	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+	private List<Comentario> comentarios;
 
 	@Override
 	public String toString() {
@@ -107,5 +110,15 @@ public class Usuario implements Serializable {
 	public void setVotos(List<Voto> votos) {
 		this.votos = votos;
 	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+	
+	
 
 }

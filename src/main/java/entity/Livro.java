@@ -41,6 +41,9 @@ public class Livro implements Serializable, Pesquisavel {
 
 	@OneToMany(mappedBy = "livro", fetch = FetchType.LAZY)
 	private List<Voto> votos;
+	
+	@OneToMany(mappedBy = "livro", fetch = FetchType.LAZY)
+	private List<Comentario> comentarios;
 
 	private transient Double mediaVotos;
 
@@ -139,6 +142,14 @@ public class Livro implements Serializable, Pesquisavel {
 
 	public void setVotos(List<Voto> votos) {
 		this.votos = votos;
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
 	}
 
 	public Double getMediaVotos() {

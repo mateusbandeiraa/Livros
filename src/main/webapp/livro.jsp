@@ -1,7 +1,6 @@
+<%@page import="entity.*, persistence.*, java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@page import="entity.*, persistence.*"%>
-	
 <%
 	Livro l = new Livro();
 	try {
@@ -15,6 +14,12 @@
 	} catch (Exception Ex) {
 		request.getRequestDispatcher("404.jsp").forward(request, response);
 	}
+	Autor a = l.getAutor();
+	if (a.getDescricao().length() > 140) {
+		String desc = a.getDescricao();
+		a.setDescricao(desc.substring(0, 140) + "...");
+	}
+	List<Comentario> comentarios = new ComentarioDao().findByBook(l.getId());
 %>
 <html>
 <head>
@@ -33,88 +38,103 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <link rel="stylesheet" href="/livros/css/style.css">
+<style>
+.remove-com-btn {
+	cursor: pointer;
+	color: red;
+}
+</style>
 <script type="text/javascript">
 	$(document).ready(function() {
+	//COR DE FUNDO DA NOTA
+	if (<%=l.getMediaVotos()%> <= 2) {
+		$('#rate-color').addClass('label label-danger');
+	} else if (<%=l.getMediaVotos()%> < 4){
+		$('#rate-color').addClass('label label-warning');
+	} else {
+		$('#rate-color').addClass('label label-success');
+	}
 
-		//COR DE FUNDO DA NOTA
-		if (<%=l.getMediaVotos()%>	<= 2) {
-			$('#rate-color').addClass('label label-danger');
-		} else if (<%=l.getMediaVotos()%> < 4) {
-			$('#rate-color').addClass('label label-warning');
-		} else {
-			$('#rate-color').addClass('label label-success');
-		}
-		
-		//TENTA RECUPERAR VOTO DO USUARIO
-		<% 
-		Voto v = new Voto();
-		v.setRate(0);
+	//TENTA RECUPERAR VOTO DO USUARIO
+		<%  Voto v = new Voto();
+			v.setRate(0);
 			Integer userID = (Integer) session.getAttribute("userID");
 			Integer livroID = Integer.valueOf(request.getParameter("id"));
-			System.out.println(userID);
-			System.out.println(livroID);
-			
-			if(userID != null && livroID != null){
-			System.out.println("certo");
-			VotoDao vd = new VotoDao();
-			Voto v2 = vd.findByUserNBook(userID, livroID);
-				if (v2 != null){
-				v = v2;
+
+			if (userID != null && livroID != null) {
+				VotoDao vd = new VotoDao();
+				Voto v2 = vd.findByUserNBook(userID, livroID);
+				if (v2 != null) {
+					v = v2;
 				}
 			}
-			
-
 		%>
-		votoUsuario = <%=v.getRate() %>;
-		
-		
-		completeStars(votoUsuario);
+	votoUsuario = <%=v.getRate()%>;
 
-		//HOVERS DAS ESTRELAS
-		function completeStars(n) {
-			emptyStars(5);
-			var i = 1;
-			while (i <= n) {
-				$('#voto' + i).removeClass('glyphicon-star-empty');
-				$('#voto' + i).addClass('glyphicon-star');
-				i++;
+	completeStars(votoUsuario);
+			//HOVERS DAS ESTRELAS
+			function completeStars(n) {
+				emptyStars(5);
+				var i = 1;
+				while (i <= n) {
+					$('#voto' + i).removeClass(
+							'glyphicon-star-empty');
+					$('#voto' + i).addClass('glyphicon-star');
+					i++;
+				}
 			}
-		}
-		function emptyStars(n) {
-			var i = 1;
-			while (i <= n) {
-				$('#voto' + i).removeClass('glyphicon-star');
-				$('#voto' + i).addClass('glyphicon-star-empty');
-				i++;
+			function emptyStars(n) {
+				var i = 1;
+				while (i <= n) {
+					$('#voto' + i).removeClass('glyphicon-star');
+					$('#voto' + i).addClass('glyphicon-star-empty');
+					i++;
+				}
 			}
-		}
+				$('.star-vote').hover(function() {
+					voto = this.id.charAt(4);
+					completeStars(voto);
+				}, function() {
+					voto = this.id.charAt(4);
+					emptyStars(voto);
+					completeStars(votoUsuario);
+				});
 
-		$('.star-vote').hover(function() {
-			voto = this.id.charAt(4);
-			completeStars(voto);
-		}, function() {
-			voto = this.id.charAt(4);
-			emptyStars(voto);
-			completeStars(votoUsuario);
-		});
+			//Voto
+			$('.star-vote').click(function() {
+				var userID = <%=session.getAttribute("userID")%>;
+				if (userID === null) {
+					alert('Você precisa estar logado para votar');
+					return;
+				}
+				voto = this.id.charAt(4);
+				$('#userID').val(userID);
+				$('#nota').val(voto)
+				$('#form-vote').submit();
+				});
 
-		//Voto
-		$('.star-vote').click(function() {
-			var userID = <%=session.getAttribute("userID")%>;
-	;
-			if (userID === null) {
-				alert('Você precisa estar logado para votar');
-				return;
-			}
-			voto = this.id.charAt(4);
-			$('#userID').val(userID);
-			$('#nota').val(voto)
+			var max = 500;
+			var dig = $('#commentContent').val().length;
+			$('#comm-cont-count').html(max - dig + ' caracteres restantes');
+			$('#commentContent').keyup(function() {
+			dig = $('#commentContent').val().length;
+			$('#comm-cont-count').html(max - dig + ' caracteres restantes');
+			});
 			
-			$('#form-vote').submit();
+			//Apagar comentário
+			$('.remove-com-btn').click(function(){
+				id = $(this).attr('id').replace("remove", "");
+				var dados = {
+						cmd:"ajaxDeleteComentario",
+						idComentario:id
+						
+				};
+				$.post('/livros/Gravar', $.param(dados), function(response){
+						location.reload();
+					});
+			});
 
-		});
-
-	});
+});
 </script>
 <title><%=l.getNome()%></title>
 </head>
@@ -148,23 +168,25 @@
 										value="<%=l.getMediaVotos()%>" />
 								</span>
 							</h2>
-							<h4 class="rate-star">
-								<form id="form-vote" action="/livros/Gravar?cmd=voto" method="post">
-								<input type="hidden" id="userID" name="userID">
-								<input type="hidden" id="nota" name="nota">
-								<input type="hidden" name="livroID" value="<%=l.getId() %>">
-									Sua nota:
-									<span style="white-space: nowrap;">
-										<span class="glyphicon glyphicon-remove-circle star-vote" id="voto0" title="Apagar voto"></span>
-									 	<span class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
-										<span class="glyphicon glyphicon-star-empty star-vote" id="voto2"></span>
-										<span class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
-										<span class="glyphicon glyphicon-star-empty star-vote" id="voto4"></span>
-										<span class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span>
+							<form id="form-vote" action="/livros/Gravar?cmd=voto"
+								method="post">
+								<h4 class="rate-star">
+									<input type="hidden" id="userID" name="userID"> <input
+										type="hidden" id="nota" name="nota"> <input
+										type="hidden" name="livroID" value="<%=l.getId()%>">
+									Sua nota: <span style="white-space: nowrap;"> <span
+										class="glyphicon glyphicon-remove-circle star-vote" id="voto0"
+										title="Apagar voto"></span> <span
+										class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote"
+										id="voto2"></span> <span
+										class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote"
+										id="voto4"></span> <span
+										class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span>
 									</span>
-
-								</form>
-							</h4>
+								</h4>
+							</form>
 
 						</div>
 					</div>
@@ -184,17 +206,60 @@
 						<div class="panel-body">
 							<div class="thumbnail" style="margin-bottom: 10px;">
 								<img alt="Foto do autor"
-									src="src/main/webapp/img/<%=l.getAutor().getImagem()%>">
+									src="src/main/webapp/img/<%=a.getImagem()%>">
 							</div>
-							<h3><%=l.getAutor().getNome()%></h3>
-							<p><%=l.getAutor().getDescricao()%></p>
-							<a href="./autor.jsp?id=<%=l.getAutor().getId()%>"
-								style="text-align: right;"><h4>Saiba mais...</h4></a>
+							<h3><%=a.getNome()%></h3>
+							<p><%=a.getDescricao()%></p>
+							<h4 style="text-align: right;">
+								<a href="./autor.jsp?id=<%=a.getId()%>">Saiba mais...</a>
+							</h4>
 						</div>
 					</div>
 				</div>
 			</div>
 
+		</div>
+		<div class="col-sm-offset-2 col-sm-8">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">Comentários</div>
+				</div>
+				<div class="panel-body">
+					<c:forEach items="<%=comentarios%>" var="comentario">
+						<div class="panel panel-primary">
+							<div class="panel-body">
+								<h4>
+									<c:if test="${userID == comentario.usuario.id || userProf == 'adm'}">
+										<span class="glyphicon glyphicon-remove-circle remove-com-btn" id="remove${comentario.id }"></span>
+									</c:if>${comentario.usuario.nome }
+									disse:
+								</h4>
+								<p>${comentario.content }</p>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+				<c:if test="${userID != null }">
+					<div class="panel-footer">
+						<form class="horizontal-form" method="POST"
+							action="/livros/Gravar?cmd=comentario">
+							<input type="hidden" name="livroID" value="<%=l.getId()%>">
+							<input type="hidden" name="userID"
+								value="<%=session.getAttribute("userID")%>">
+							<div class="form-group">
+								<textarea maxlength="500" id="commentContent"
+									name="commentContent" class="form-control" required
+									placeholder="O que você achou desse livro?"></textarea>
+								<p style="margin-top: 5px">
+									<label id="comm-cont-count" class="control-label"></label>
+									<button type="submit" class="btn btn-primary"
+										style="position: absolute; right: 30px;">Comentar</button>
+								</p>
+							</div>
+						</form>
+					</div>
+				</c:if>
+			</div>
 		</div>
 	</div>
 </body>

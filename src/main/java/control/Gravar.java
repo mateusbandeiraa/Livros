@@ -12,15 +12,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import entity.Autor;
+import entity.Comentario;
 import entity.Livro;
 import entity.Usuario;
 import entity.Voto;
 import persistence.AutorDao;
+import persistence.ComentarioDao;
 import persistence.LivroDao;
 import persistence.UsuarioDao;
 import persistence.VotoDao;
@@ -60,6 +63,9 @@ public class Gravar extends HttpServlet {
 			gravarUsuario(request, response);
 			break;
 
+		case "comentario":
+			gravarComentario(request, response);
+			break;
 		case "editLivro":
 			editarLivro(request, response);
 			break;
@@ -82,6 +88,10 @@ public class Gravar extends HttpServlet {
 
 		case "ajaxDeleteUsuario":
 			ajaxApagarUsuario(request, response);
+			break;
+		
+		case "ajaxDeleteComentario":
+			ajaxApagarComentario(request, response);
 			break;
 
 		case "voto":
@@ -319,6 +329,7 @@ public class Gravar extends HttpServlet {
 
 	protected void gravarUsuario(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		try {
 			Usuario u = new Usuario();
 			u.setNome(request.getParameter("nomeUsuario"));
@@ -332,6 +343,9 @@ public class Gravar extends HttpServlet {
 				u.setPerfil("adm");
 
 			new UsuarioDao().create(u);
+			session.setAttribute("userID", u.getId());
+			session.setAttribute("userProf", u.getPerfil());
+			CEM.cadastro(u.getEmail(), u.getNome());
 			response.sendRedirect(ref + "?msgUsuario=Cadastro efetuado com sucesso!");
 		} catch (Exception ex) {
 			response.sendRedirect(ref + "?msgUsuario=" + ex.getMessage());
@@ -342,19 +356,18 @@ public class Gravar extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			Usuario u = new Usuario();
-			u.setId(Integer.valueOf(request.getParameter("idUsuario")));
+			UsuarioDao ud = new UsuarioDao();
+			u = ud.findByCode(Integer.valueOf(request.getParameter("idUsuario")));
 			u.setNome(request.getParameter("nomeUsuario"));
 			u.setEmail(request.getParameter("emailUsuario"));
-			String senha = request.getParameter("senhaUsuario");
-			senha = BCrypt.hashpw(senha, BCrypt.gensalt());
-			u.setSenha(senha);
 			u.setPerfil(request.getParameter("perfilUsuario"));
 
 			if (u.getEmail().equalsIgnoreCase("admin@admin.com"))
 				u.setPerfil("adm");
 
-			new UsuarioDao().update(u);
-			response.sendRedirect(ref + "?item=usuario&id=" + u.getId() +"&msgUsuario="+ URLEncoder.encode("Usuário editado com sucesso!", "UTF-8"));
+			ud.update(u);
+			response.sendRedirect(ref + "?item=usuario&id=" + u.getId() + "&msgUsuario="
+					+ URLEncoder.encode("Usuário editado com sucesso!", "UTF-8"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			response.sendRedirect(
@@ -394,13 +407,44 @@ public class Gravar extends HttpServlet {
 			} else {
 				Voto v = new Voto(null, l, u, voto);
 
-				System.out.println(v);
 				new VotoDao().create(v);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			response.sendRedirect(ref + "?id=" + request.getParameter("livroID"));
+		}
+	}
+
+	protected void gravarComentario(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Comentario c = new Comentario();
+			Usuario u = new Usuario();
+			u.setId(Integer.valueOf(request.getParameter("userID")));
+			Livro l = new Livro();
+			l.setId(Integer.valueOf(request.getParameter("livroID")));
+			c.setUsuario(u);
+			c.setLivro(l);
+			c.setContent(request.getParameter("commentContent"));
+			new ComentarioDao().create(c);
+			response.sendRedirect(ref + "?id=" + l.getId());
+		} catch (Exception ex) {
+			response.sendRedirect(
+					ref + "?id=" + request.getParameter("livroID") + "&msgComentario=Erro: " + ex.getMessage());
+		}
+	}
+	
+	protected void ajaxApagarComentario(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			Comentario c = new Comentario();
+			c.setId(Integer.valueOf(request.getParameter("idComentario")));
+
+			new ComentarioDao().delete(c);
+			response.getWriter().write("Comentário apagado com sucesso");
+		} catch (Exception ex) {
+			response.getWriter().write("Erro: " + ex.getMessage());
 		}
 	}
 

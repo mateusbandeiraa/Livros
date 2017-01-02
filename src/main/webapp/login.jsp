@@ -55,7 +55,7 @@
 							onclick="parent.location='cadastro.jsp'">Cadastrar...</button>
 					</div>
 				</form>
-				<div id="msg">${param["logMsg"]}</div>
+				${param['logMsg']}
 			</div>
 		</div>
 		</div>
