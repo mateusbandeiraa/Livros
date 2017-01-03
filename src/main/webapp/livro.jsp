@@ -24,6 +24,7 @@
 %>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <link rel="stylesheet"
@@ -149,7 +150,7 @@
 			<div class="panel-heading"></div>
 
 			<div class="panel-body">
-				<div class="col-xs-3 col-md-4 col-lg-3">
+				<div class="col-md-4 col-lg-3">
 					<div class="thumbnail">
 						<img alt="Capa do Livro"
 							src="src/main/webapp/img/<%=l.getImagem()%>">

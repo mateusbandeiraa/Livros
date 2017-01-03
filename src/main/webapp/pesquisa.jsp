@@ -4,6 +4,7 @@
 	pageEncoding="UTF-8"%>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <link rel="stylesheet"
@@ -33,17 +34,17 @@
 	results.addAll(autores);
 
 	//Reduz tamanho das descrições
-	for (Pesquisavel p : results) {
-		String descricao = p.getDescricao();
+// 	for (Pesquisavel p : results) {
+// 		String descricao = p.getDescricao();
 
-		if (descricao.length() > 95) {
-			descricao = descricao.substring(0, 95) + "...";
-		}
+// 		if (descricao.length() > 140) {
+// 			descricao = descricao.substring(0, 140) + "...";
+// 		}
 
-		p.setDescricao(descricao);
-	}
+// 		p.setDescricao(descricao);
+// 	}
 
-	System.out.println(results);
+// 	System.out.println(results);
 %>
 </head>
 <body>
@@ -81,28 +82,45 @@
 					}
 					pageContext.setAttribute("pag", pag);
 			%>
-			<div class="col-md-6">
+			<div class="col-sm-6">
 				<div class="panel panel-primary">
 					<div class="panel-heading"></div>
-					<div class="panel-body" style="height: 225px;">
-
-						<a href="<%=pag%>"> <img alt="Capa do livro"
-							src="src/main/webapp/img/${result.imagem }" height="100%"
-							style="max-width: 195px; float: left; padding-right: 15px">
-						</a>
-
-						<h3 style="margin-top: 0px;">
-							<a href="<%=pag%>">${result.nome }</a>
-						</h3>
-						<c:if test="<%=p.getClass().equals(Livro.class)%>">
-							<h4>
-								por <a href="autor.jsp?id=${result.autor.id }">${result.autor.nome }</a>
-							</h4>
-						</c:if>
-						<p>${result.descricao }</p>
-						<div class="btn btn-info" onclick="location.href = '${pag}'">Leia
-							Mais...</div>
-
+					<div class="panel-body panel-search">
+						<div class="col-sm-4">
+								<a href="<%=pag%>"> <img alt="Capa do livro"
+									src="src/main/webapp/img/${result.imagem }" width="100%">
+								</a>
+						</div>
+						<div class="col-sm-8 div-panel-search" id="panel-search-${result.id }">
+							<h3 style="margin-top: 0px;" id="titulo-search-${result.id }">
+								<a href="<%=pag%>">${result.nome }</a>
+							</h3>
+							<c:if test="<%=p.getClass().equals(Livro.class)%>">
+								<h4 id="subtitulo-search-${result.id }">
+									por <a href="autor.jsp?id=${result.autor.id }">${result.autor.nome }</a>
+								</h4>
+							</c:if>
+							<div class="txt-field-search" id="div-txt-${result.id }">
+								${result.descricao }
+							</div>
+							<div class="btn btn-info" style="margin-top: 10px" onclick="location.href = '${pag}'">Leia
+								Mais...</div>
+						</div>
+						<script>
+						result = ${result.id}
+						var painelInteiro = 215;
+						var titulo = parseInt($('#titulo-search-' + result).css("height").replace("px", ""));
+						var subtitulo = 0;
+						try{
+							subtitulo = parseInt($('#subtitulo-search-' + result).css("height").replace("px", ""));
+							subtitulo += parseInt($('#subtitulo-search-' + result).css("margin-top").replace("px", ""));
+							subtitulo += parseInt($('#subtitulo-search-' + result).css("margin-bottom").replace("px", ""));
+						} catch (err){
+							
+						}
+						var divTxt = painelInteiro - (titulo + subtitulo + 35);
+						$("#div-txt-" + result).attr("style", "height: " + divTxt + "px");
+						</script>
 					</div>
 				</div>
 			</div>

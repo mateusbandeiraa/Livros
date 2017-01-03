@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 <meta charset="UTF-8">
 <title>Levros</title>
 <link rel="stylesheet"
