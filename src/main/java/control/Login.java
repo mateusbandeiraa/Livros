@@ -2,6 +2,7 @@ package control;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import entity.TicketSenha;
 import entity.Usuario;
+import persistence.TicketDao;
 import persistence.UsuarioDao;
 
 @WebServlet("/Login")
@@ -27,6 +30,8 @@ public class Login extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		String cmd = request.getParameter("cmd");
 		ref = request.getHeader("referer");
 		try {
@@ -40,6 +45,12 @@ public class Login extends HttpServlet {
 			break;
 		case "logout":
 			logout(request, response);
+			break;
+		case "ajaxCreateTicket":
+			generateTicket(request, response);
+			break;
+		case "ajaxRescSenha":
+			rescSenha(request, response);
 			break;
 		default:
 			break;
@@ -85,14 +96,80 @@ public class Login extends HttpServlet {
 		session.setAttribute("userID", null);
 		session.setAttribute("userProf", null);
 		request.setAttribute("logMsg", null);
-		
+
 		System.out.println("logout");
-		if(!ref.contains("adm")){
-			response.sendRedirect(ref);	
-		}else{
+		if (!ref.contains("adm")) {
+			response.sendRedirect(ref);
+		} else {
 			response.sendRedirect("/livros/");
 		}
-		
+
+	}
+
+	protected void generateTicket(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String userEmail = request.getParameter("userEmail");
+
+			UsuarioDao ud = new UsuarioDao();
+
+			Usuario user = ud.findByEmail(userEmail);
+
+			if (user == null)
+				throw new Exception("Usuário não encontrado!");
+
+			String ticketPass = BCrypt.hashpw(userEmail, BCrypt.gensalt()); // Gera
+																			// código
+																			// do
+																			// ticket
+			TicketSenha ts = new TicketSenha(null, user, ticketPass, new Date());
+
+			TicketDao td = new TicketDao();
+			td.create(ts);
+
+			CEM.resgateSenha(ts);
+
+			response.getWriter().write("Um link para a redefinição da senha foi enviado para o seu e-mail");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			response.getWriter().write("Erro: " + ex.getMessage());
+		}
+
+	}
+
+	protected void rescSenha(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String ticketCode = request.getParameter("ticketCode");
+
+			TicketDao td = new TicketDao();
+
+			TicketSenha ts = td.findByPass(ticketCode);
+			if(ts == null)
+				throw new Exception("Código de redefinição de senha inválido");
+
+			Date agora = new Date();
+			Long msPorDia = 24 * 60 * 60 * 1000L;
+			if (Math.abs(ts.getData().getTime() - agora.getTime()) > msPorDia) {
+				throw new Exception("O pedido de redefinição de senha expirou.");
+			}
+
+			Usuario user = ts.getUsuario();
+
+			String senha = request.getParameter("senhaUsuario");
+
+			user.setSenha(BCrypt.hashpw(senha, BCrypt.gensalt()));
+
+			System.out.println(ts);
+			
+			new UsuarioDao().update(user);
+			td.delete(ts);
+			response.getWriter().write("Senha alterada com sucesso.");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			response.getWriter().write("Erro: " + ex.getMessage());
+		}
+
 	}
 
 }

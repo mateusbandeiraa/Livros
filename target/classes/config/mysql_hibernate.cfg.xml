@@ -19,6 +19,7 @@
 		<mapping class="entity.Usuario"/>
 		<mapping class="entity.Voto"/>
 		<mapping class="entity.Comentario"/>
+		<mapping class="entity.TicketSenha"/>
 
 	</session-factory>
 </hibernate-configuration>

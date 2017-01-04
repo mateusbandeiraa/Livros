@@ -18,6 +18,7 @@
 <script type="text/javascript" src="/livros/js/scripts.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <%@page import="entity.*, persistence.*"%>
 <jsp:useBean id="mb" class="manager.HomeManagerBean"></jsp:useBean>
 
@@ -114,51 +115,61 @@
 	</div>
 	<div class="col-md-3">
 		<div class="panel panel-primary">
-			<c:if test="${userID == null}">
-				<div class="panel-heading">
-					<div class="panel-title">Login</div>
-				</div>
-				<div class="panel-body">
-					<form class="form-horizontal col-sm-12" method="post"
-						action="Login?cmd=login">
-						<div class="form-group">
-							<input class="form-control" type="email" id="emailUsuario"
-								name="emailUsuario" placeholder="E-mail" required>
-						</div>
-						<div class="form-group">
-							<input class="form-control" type="password" id="senhaUsuario"
-								name="senhaUsuario" placeholder="Senha" required>
-						</div>
-						<div id="msg">${param.logMsg}</div>
-						<div class="col-lg-6 col-sm-12">
-							<button class="btn btn-primary btn-block" type="submit">Entrar</button>
-						</div>
-						<div class="col-lg-6 col-sm-12">
-							<button class="btn btn-info btn-block" type="button"
-								onclick="parent.location='cadastro.jsp'">Cadastrar...</button>
-						</div>
-					</form>
-				</div>
-			</c:if>
-			<c:if test="${userID != null}">
-				<div class="panel-heading">
-					<div class="panel-title">Perfil</div>
-				</div>
-				<div class="panel-body">
-					<h3>
-						Olá,
-						<%=u.getNome()%></h3>
-						<%if(u.getPerfil().equals("adm")){
-							out.print("<h4><a href=\"adm/index.jsp\">Ir para o painel de controle do administrador</a></h4>");
-						}
-							%>
+			<c:choose>
+				<c:when test="${userID != null}">
+					<div class="panel-heading">
+						<div class="panel-title">Perfil</div>
+					</div>
+					<div class="panel-body">
+						<h3>
+							Olá,
+							<%=u.getNome()%></h3>
+						<%
+							if (u.getPerfil().equals("adm")) {
+										out.print(
+												"<h4><a href=\"adm/index.jsp\">Ir para o painel de controle do administrador</a></h4>");
+									}
+						%>
 						<form action="Login?cmd=logout" method="post">
-						<button type="submit" class="btn btn-danger btn-block">Logout</button>
-					</form>
-				</div>
-			</c:if>
+							<button type="submit" class="btn btn-danger btn-block">Logout</button>
+						</form>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="panel-heading">
+						<div class="panel-title">Login</div>
+					</div>
+					<div class="panel-body">
+						<form class="form-horizontal col-sm-12" method="post"
+							action="Login?cmd=login">
+							<div class="form-group">
+								<input class="form-control" type="email" id="emailUsuario"
+									name="emailUsuario" placeholder="E-mail" required>
+							</div>
+							<div class="form-group">
+								<input class="form-control" type="password" id="senhaUsuario"
+									name="senhaUsuario" placeholder="Senha" required>
+							</div>
+							<div id="msg">${param.logMsg}</div>
+							<div class="col-lg-6">
+								<button class="btn btn-primary btn-block" type="submit">Entrar</button>
+							</div>
+							<div class="col-lg-6">
+								<button class="btn btn-info btn-block" type="button"
+									onclick="parent.location='cadastro.jsp'">Cadastrar...</button>
+							</div>
+							<div class="col-sm-12" style="text-align: right; margin-top: 5px">
+								<a href="#" onclick="$('#modalRecSenha').modal()">Esqueceu sua senha?</a>
+							</div>
+						</form>
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
+
+	<t:modalResc></t:modalResc>
+
 </body>
 </body>
 </html>
