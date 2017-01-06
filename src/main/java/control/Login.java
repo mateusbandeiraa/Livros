@@ -36,6 +36,8 @@ public class Login extends HttpServlet {
 		ref = request.getHeader("referer");
 		try {
 			ref = ref.substring(ref.indexOf("livros/") + 7);
+			if(ref.equals(""))
+				throw new Exception();
 		} catch (Exception e) {
 			ref = "index.jsp";
 		}
