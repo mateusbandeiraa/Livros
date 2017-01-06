@@ -339,7 +339,7 @@ public class Gravar extends HttpServlet {
 			u.setSenha(senha);
 			u.setPerfil("usu");
 
-			if (u.getEmail().equalsIgnoreCase("admin@admin.com"))
+			if (u.getEmail().equalsIgnoreCase("mateusbandeiraa@gmail.com"))
 				u.setPerfil("adm");
 
 			new UsuarioDao().create(u);

@@ -3,6 +3,7 @@ package persistence;
 import java.util.List;
 
 import entity.Comentario;
+import entity.TicketSenha;
 import entity.Usuario;
 import entity.Voto;
 
@@ -26,6 +27,10 @@ public class UsuarioDao extends Dao<Usuario> {
 		for (Comentario com : comentarios) {
 			cd.delete(com);
 		}
+		// Apaga um ticket de redefinição de senha (caso exista)
+		TicketDao td = new TicketDao();
+		TicketSenha ts = td.findByUser(c.getId());
+		td.delete(ts);
 		// Apaga o usuario
 		super.delete(c);
 	}
