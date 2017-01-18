@@ -24,7 +24,7 @@
 	String termos = request.getParameter("terms");
 
 	List<Livro> livros = new LivroDao().findListByName(termos);
-	List<Autor> autores = new AutorDao().findByName(termos);
+	List<Autor> autores = new AutorDao().findListByName(termos);
 
 	//System.out.println(livros);
 	//System.out.println(autores);

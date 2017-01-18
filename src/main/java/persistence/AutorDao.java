@@ -23,7 +23,7 @@ public class AutorDao extends Dao<Autor>{
 		super.delete(c);
 	}
 
-		public List<Autor> findByName(String nome) {
+		public List<Autor> findListByName(String nome) {
 		session = HibernateUtil.getSessionFactory().openSession();
 
 		if (!nome.contains(" ")) { // SE A STRING NÃO CONTEM ESPAÇO
@@ -58,4 +58,12 @@ public class AutorDao extends Dao<Autor>{
 		session.close();
 		return autores;
 	}
+		public Autor findByName(String nome) {
+			session = HibernateUtil.getSessionFactory().openSession();
+			query = session.createQuery("from Autor A where A.nome LIKE '%'|| :nome || '%'");
+			query.setString("nome", nome);
+			Autor autor = (Autor) query.uniqueResult();
+			session.close();
+			return autor;
+		}
 }

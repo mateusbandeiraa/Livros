@@ -7,21 +7,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.google.gson.annotations.Expose;
+
 @Entity
-public class Voto implements Serializable{
+public class Voto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	@Column
+	@Expose
 	private Integer id;
 	@ManyToOne
 	private Livro livro;
 	@ManyToOne
 	private Usuario usuario;
 	@Column(nullable = false)
+	@Expose
 	private Integer rate;
-	
+
 	@Override
 	public String toString() {
 		return "Voto [id=" + id + ", livro=" + livro + ", usuario=" + usuario + ", rate=" + rate + "]";
@@ -74,5 +79,5 @@ public class Voto implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 }
