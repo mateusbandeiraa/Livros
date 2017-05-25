@@ -11,17 +11,22 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class TicketSenha {
 	@Id
 	@GeneratedValue
+	@Expose
 	private Integer id;
 	@OneToOne
 	@JoinColumn(unique = true)
 	private Usuario usuario;
 	@Column
+	@Expose
 	private String ticketPass;
 	@Temporal(value = TemporalType.TIMESTAMP)
+	@Expose
 	private Date data;
 
 	@Override

@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Comentario implements Serializable {
 
@@ -17,6 +19,7 @@ public class Comentario implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column
+	@Expose
 	private Integer id;
 	@ManyToOne
 	private Livro livro;
@@ -24,6 +27,7 @@ public class Comentario implements Serializable {
 	private Usuario usuario;
 	@Column
 	@Type(type = "text")
+	@Expose
 	private String content;
 
 	@Override

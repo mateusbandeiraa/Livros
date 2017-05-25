@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+
 import persistence.AutorDao;
 import persistence.LivroDao;
 
@@ -23,14 +26,19 @@ public class Autor implements Serializable, Pesquisavel {
 	@Id
 	@GeneratedValue
 	@Column
+	@Expose
 	private Integer id;
 	@Column(length = 50, unique = true)
+	@Expose
 	private String nome;
 	@Column
 	@Type(type = "text")
+	@Expose
 	private String descricao;
 	@Column
+	@Expose
 	private String imagem;
+	@Expose
 	private transient Double mediaAutor = 0.;
 	@OneToMany(mappedBy = "autor", fetch = FetchType.EAGER)
 	private List<Livro> livros;
@@ -115,28 +123,35 @@ public class Autor implements Serializable, Pesquisavel {
 	}
 
 	public static void main(String[] args) {
-		AutorDao ad = new AutorDao();
-		LivroDao ld = new LivroDao();
-
-		Autor a = new Autor(null, "Tolkien", null);
-		Livro l1 = new Livro();
-		l1.setNome("O Hobbit");
-		l1.setAutor(a);
-		Livro l2 = new Livro();
-		l2.setNome("O Senhor dos Aneis: A sociedade do Anel");
-		l2.setAutor(a);
-
-		ad.create(a);
-		ld.create(l1);
-		ld.create(l2);
-
-		System.out.println("Autor e livros criados.");
-
-		ad.delete(a);
-
-		System.out.println("Autor apagado.");
-		System.out.println("Autores: " + ad.findAll());
-		System.out.println("Livros: " + ld.findAll());
+//		AutorDao ad = new AutorDao();
+//		LivroDao ld = new LivroDao();
+//
+//		Autor a = new Autor(null, "Tolkien", null);
+//		Livro l1 = new Livro();
+//		l1.setNome("O Hobbit");
+//		l1.setAutor(a);
+//		Livro l2 = new Livro();
+//		l2.setNome("O Senhor dos Aneis: A sociedade do Anel");
+//		l2.setAutor(a);
+//
+//		ad.create(a);
+//		ld.create(l1);
+//		ld.create(l2);
+//
+//		System.out.println("Autor e livros criados.");
+//
+//		ad.delete(a);
+//
+//		System.out.println("Autor apagado.");
+//		System.out.println("Autores: " + ad.findAll());
+//		System.out.println("Livros: " + ld.findAll());
+		
+		Autor a = new Autor(1, "Teste", null);
+		Autor a2 = new Autor(2, "teste2", null);
+		List<Autor> lst = new ArrayList<Autor>();
+		lst.add(a);
+		lst.add(a2);
+		System.out.println(new Gson().toJson(lst));
 	}
 
 }
