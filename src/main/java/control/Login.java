@@ -36,11 +36,13 @@ public class Login extends HttpServlet {
 		ref = request.getHeader("referer");
 		try {
 			ref = ref.substring(ref.indexOf("livros/") + 7);
-			if(ref.equals(""))
+			if (ref.equals(""))
 				throw new Exception();
 		} catch (Exception e) {
 			ref = "index.jsp";
 		}
+		ref = ref.replaceAll("[?]?[&]?logMsg=[^&]+", "");
+		
 		switch (cmd) {
 		case "login":
 			login(request, response);
@@ -87,7 +89,12 @@ public class Login extends HttpServlet {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			response.sendRedirect(ref + "?logMsg=" + URLEncoder.encode(ex.getMessage(), "UTF-8"));
+			String param = "?";
+			if(ref.contains("?"))
+				param = "&";
+				
+			param += "logMsg=" + URLEncoder.encode(ex.getMessage(), "UTF-8");
+			response.sendRedirect(ref + param);
 			return;
 		}
 	}
@@ -147,7 +154,7 @@ public class Login extends HttpServlet {
 			TicketDao td = new TicketDao();
 
 			TicketSenha ts = td.findByPass(ticketCode);
-			if(ts == null)
+			if (ts == null)
 				throw new Exception("Código de redefinição de senha inválido");
 
 			Date agora = new Date();
@@ -163,7 +170,7 @@ public class Login extends HttpServlet {
 			user.setSenha(BCrypt.hashpw(senha, BCrypt.gensalt()));
 
 			System.out.println(ts);
-			
+
 			new UsuarioDao().update(user);
 			td.delete(ts);
 			response.getWriter().write("Senha alterada com sucesso.");
