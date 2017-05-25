@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.google.gson.annotations.Expose;
-
 @Entity
 public class Usuario implements Serializable {
 
@@ -19,19 +17,14 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column
-	@Expose
 	private Integer id;
 	@Column(length = 50)
-	@Expose
 	private String nome;
 	@Column(length = 70, unique = true)
-	@Expose
 	private String email;
 	@Column
-	@Expose
 	private String senha;
 	@Column(columnDefinition = "enum ('usu', 'adm')")
-	@Expose
 	private String perfil;
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)

@@ -13,9 +13,6 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
 
-import com.google.gson.annotations.Expose;
-
-import persistence.LivroDao;
 import persistence.VotoDao;
 
 @Entity
@@ -25,23 +22,17 @@ public class Livro implements Serializable, Pesquisavel {
 	@Id
 	@GeneratedValue
 	@Column
-	@Expose
 	private Integer id;
 	@Column(length = 50)
-	@Expose
 	private String nome;
 	@Column
 	@Type(type = "text")
-	@Expose
 	private String descricao;
 	@Column(length = 17, unique = true)
-	@Expose
 	private String isbn;
 	@Column
-	@Expose
 	private String editora;
 	@Column
-	@Expose
 	private String imagem;
 
 	@ManyToOne
@@ -53,7 +44,6 @@ public class Livro implements Serializable, Pesquisavel {
 	@OneToMany(mappedBy = "livro", fetch = FetchType.LAZY)
 	private List<Comentario> comentarios;
 
-	@Expose
 	private transient Double mediaVotos;
 
 	public Livro() {
@@ -171,7 +161,8 @@ public class Livro implements Serializable, Pesquisavel {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(new LivroDao().findByCode(4).getVotos());
+		Livro l = new Livro();
+		l.setId(1);
 	}
 
 }
