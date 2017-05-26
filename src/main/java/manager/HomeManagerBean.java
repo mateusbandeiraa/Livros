@@ -12,7 +12,7 @@ import persistence.VotoDao;
 
 public class HomeManagerBean {
 	private List<Livro> topLivros;
-	private List<Autor> topAutores;
+	private List<Autor> topAutores; 
 
 	public HomeManagerBean() {
 		topLivros = new ArrayList<Livro>();

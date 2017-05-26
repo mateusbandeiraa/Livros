@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=0">
 <meta charset="UTF-8">
 <title>Levros</title>
 <link rel="stylesheet"
@@ -159,7 +160,8 @@
 									onclick="parent.location='cadastro.jsp'">Cadastrar...</button>
 							</div>
 							<div class="col-sm-12" style="text-align: right; margin-top: 5px">
-								<a href="#" onclick="$('#modalRecSenha').modal()">Esqueceu sua senha?</a>
+								<a href="#" onclick="$('#modalRecSenha').modal()">Esqueceu
+									sua senha?</a>
 							</div>
 						</form>
 					</div>

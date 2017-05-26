@@ -3,9 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%
 	Livro l = new Livro();
+	final Integer id = Integer.valueOf((String) request.getParameter("id"));
 	try {
-		final Integer id = Integer.valueOf((String) request.getParameter("id"));
-
 		if (id != null) {
 			l = new LivroDao().findByCode(id);
 		}
@@ -14,6 +13,14 @@
 	} catch (Exception Ex) {
 		request.getRequestDispatcher("404.jsp").forward(request, response);
 	}
+	int nVotos = new VotoDao().getNVotos(l);
+	String strVotos;
+	if (nVotos == 1) {
+		strVotos = nVotos + " voto";
+	} else {
+		strVotos = nVotos + " votos";
+	}
+
 	Autor a = l.getAutor();
 	if (a.getDescricao().length() > 140) {
 		String desc = a.getDescricao();
@@ -24,7 +31,8 @@
 %>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=0">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <link rel="stylesheet"
@@ -47,18 +55,24 @@
 }
 </style>
 <script type="text/javascript">
-	$(document).ready(function() {
-	//COR DE FUNDO DA NOTA
-	if (<%=l.getMediaVotos()%> <= 2) {
-		$('#rate-color').addClass('label label-danger');
-	} else if (<%=l.getMediaVotos()%> < 4){
-		$('#rate-color').addClass('label label-warning');
-	} else {
-		$('#rate-color').addClass('label label-success');
-	}
+	$(document)
+			.ready(
+					function() {
+						//COR DE FUNDO DA NOTA
+						if (
+<%=l.getMediaVotos()%>
+	<= 2) {
+							$('#rate-color').addClass('label label-danger');
+						} else if (
+<%=l.getMediaVotos()%>
+	< 4) {
+							$('#rate-color').addClass('label label-warning');
+						} else {
+							$('#rate-color').addClass('label label-success');
+						}
 
-	//TENTA RECUPERAR VOTO DO USUARIO
-		<%  Voto v = new Voto();
+						//TENTA RECUPERAR VOTO DO USUARIO
+<%Voto v = new Voto();
 			v.setRate(0);
 			Integer userID = (Integer) session.getAttribute("userID");
 			Integer livroID = Integer.valueOf(request.getParameter("id"));
@@ -69,74 +83,87 @@
 				if (v2 != null) {
 					v = v2;
 				}
-			}
-		%>
-	votoUsuario = <%=v.getRate()%>;
+			}%>
+	votoUsuario =
+<%=v.getRate()%>
+	;
 
-	completeStars(votoUsuario);
-			//HOVERS DAS ESTRELAS
-			function completeStars(n) {
-				emptyStars(5);
-				var i = 1;
-				while (i <= n) {
-					$('#voto' + i).removeClass(
-							'glyphicon-star-empty');
-					$('#voto' + i).addClass('glyphicon-star');
-					i++;
-				}
-			}
-			function emptyStars(n) {
-				var i = 1;
-				while (i <= n) {
-					$('#voto' + i).removeClass('glyphicon-star');
-					$('#voto' + i).addClass('glyphicon-star-empty');
-					i++;
-				}
-			}
-				$('.star-vote').hover(function() {
-					voto = this.id.charAt(4);
-					completeStars(voto);
-				}, function() {
-					voto = this.id.charAt(4);
-					emptyStars(voto);
-					completeStars(votoUsuario);
-				});
+						completeStars(votoUsuario);
+						//HOVERS DAS ESTRELAS
+						function completeStars(n) {
+							emptyStars(5);
+							var i = 1;
+							while (i <= n) {
+								$('#voto' + i).removeClass(
+										'glyphicon-star-empty');
+								$('#voto' + i).addClass('glyphicon-star');
+								i++;
+							}
+						}
+						function emptyStars(n) {
+							var i = 1;
+							while (i <= n) {
+								$('#voto' + i).removeClass('glyphicon-star');
+								$('#voto' + i).addClass('glyphicon-star-empty');
+								i++;
+							}
+						}
+						$('.star-vote').hover(function() {
+							voto = this.id.charAt(4);
+							completeStars(voto);
+						}, function() {
+							voto = this.id.charAt(4);
+							emptyStars(voto);
+							completeStars(votoUsuario);
+						});
 
-			//Voto
-			$('.star-vote').click(function() {
-				var userID = <%=session.getAttribute("userID")%>;
-				if (userID === null) {
-					alert('Você precisa estar logado para votar');
-					return;
-				}
-				voto = this.id.charAt(4);
-				$('#userID').val(userID);
-				$('#nota').val(voto)
-				$('#form-vote').submit();
-				});
+						//Voto
+						$('.star-vote').click(function() {
+							var userID =
+<%=session.getAttribute("userID")%>
+	;
+							if (userID === null) {
+								alert('Você precisa estar logado para votar');
+								return;
+							}
+							voto = this.id.charAt(4);
+							$('#userID').val(userID);
+							$('#nota').val(voto)
+							$('#form-vote').submit();
+						});
 
-			var max = 500;
-			var dig = $('#commentContent').val().length;
-			$('#comm-cont-count').html(max - dig + ' caracteres restantes');
-			$('#commentContent').keyup(function() {
-			dig = $('#commentContent').val().length;
-			$('#comm-cont-count').html(max - dig + ' caracteres restantes');
-			});
-			
-			//Apagar comentário
-			$('.remove-com-btn').click(function(){
-				id = $(this).attr('id').replace("remove", "");
-				var dados = {
-						cmd:"ajaxDeleteComentario",
-						idComentario:id
-						
-				};
-				$.post('/livros/Gravar', $.param(dados), function(response){
-						location.reload();
+						var max = 500;
+						var dig = $('#commentContent').val().length;
+						$('#comm-cont-count').html(
+								max - dig + ' caracteres restantes');
+						$('#commentContent')
+								.keyup(
+										function() {
+											dig = $('#commentContent').val().length;
+											$('#comm-cont-count')
+													.html(
+															max
+																	- dig
+																	+ ' caracteres restantes');
+										});
+
+						//Apagar comentário
+						$('.remove-com-btn').click(
+								function() {
+									id = $(this).attr('id').replace("remove",
+											"");
+									var dados = {
+										cmd : "ajaxDeleteComentario",
+										idComentario : id
+
+									};
+									$.post('/livros/Gravar', $.param(dados),
+											function(response) {
+												location.reload();
+											});
+								});
+
 					});
-			});
-
-});
 </script>
 <title><%=l.getNome()%></title>
 </head>
@@ -150,7 +177,7 @@
 			<div class="panel-heading"></div>
 
 			<div class="panel-body">
-				<div class="col-md-4 col-lg-3">
+				<div class="col-xs-6 col-sm-5 col-md-4 col-lg-3">
 					<div class="thumbnail">
 						<img alt="Capa do Livro"
 							src="src/main/webapp/img/<%=l.getImagem()%>">
@@ -170,6 +197,9 @@
 										value="<%=l.getMediaVotos()%>" />
 								</span>
 							</h2>
+							<h5 style="text-align: center;">
+								(<%=strVotos%>)
+							</h5>
 							<form id="form-vote" action="/livros/Gravar?cmd=voto"
 								method="post">
 								<h4 class="rate-star">
@@ -178,14 +208,12 @@
 										type="hidden" name="livroID" value="<%=l.getId()%>">
 									Sua nota: <span style="white-space: nowrap;"> <span
 										class="glyphicon glyphicon-remove-circle star-vote" id="voto0"
-										title="Apagar voto"></span> <span
-										class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
-										<span class="glyphicon glyphicon-star-empty star-vote"
-										id="voto2"></span> <span
-										class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
-										<span class="glyphicon glyphicon-star-empty star-vote"
-										id="voto4"></span> <span
-										class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span>
+										title="Apagar voto"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto1"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto2"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto3"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto4"></span>
+										<span class="glyphicon glyphicon-star-empty star-vote" id="voto5"></span>
 									</span>
 								</h4>
 							</form>
@@ -193,12 +221,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-5 col-lg-6">
+				<div class="col-xs-6 col-sm-7 col-md-8 col-lg-6">
 					<h2><%=l.getNome()%></h2>
 					<h3 style="margin-top: 0;"><%=l.getAutor().getNome()%></h3>
 					<p><%=l.getDescricao()%></p>
 				</div>
-				<div class="hidden-xs hidden-sm col-md-3">
+				<div class="col-xs-12 col-md-8 col-lg-3">
 					<div class="panel panel-info">
 						<div class="panel-heading">
 							<h3 class="title3">
@@ -206,15 +234,19 @@
 							</h3>
 						</div>
 						<div class="panel-body">
-							<div class="thumbnail" style="margin-bottom: 10px;">
-								<img alt="Foto do autor"
-									src="src/main/webapp/img/<%=a.getImagem()%>">
+							<div class="col-xs-4 col-lg-12">
+								<div class="thumbnail" style="margin-bottom: 10px;">
+									<img alt="Foto do autor"
+										src="src/main/webapp/img/<%=a.getImagem()%>">
+								</div>
 							</div>
-							<h3><%=a.getNome()%></h3>
-							<p><%=a.getDescricao()%></p>
-							<h4 style="text-align: right;">
-								<a href="./autor.jsp?id=<%=a.getId()%>">Saiba mais...</a>
-							</h4>
+							<div class="col-xs-8 col-lg-12">
+								<h3 style="margin-top: 5px;"><%=a.getNome()%></h3>
+								<p><%=a.getDescricao()%></p>
+								<h4 style="text-align: right;">
+									<a href="./autor.jsp?id=<%=a.getId()%>">Saiba mais...</a>
+								</h4>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -236,10 +268,13 @@
 								<div class="panel panel-primary">
 									<div class="panel-body">
 										<h4>
-											<c:if test="${userID == comentario.usuario.id || userProf == 'adm'}">
-												<span class="glyphicon glyphicon-remove-circle remove-com-btn" id="remove${comentario.id }"></span>
+											<c:if
+												test="${userID == comentario.usuario.id || userProf == 'adm'}">
+												<span
+													class="glyphicon glyphicon-remove-circle remove-com-btn"
+													id="remove${comentario.id }"></span>
 											</c:if>
-											${comentario.usuario.nome }	disse:
+											${comentario.usuario.nome } disse:
 										</h4>
 										<p>${comentario.content }</p>
 									</div>

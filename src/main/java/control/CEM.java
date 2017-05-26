@@ -32,7 +32,7 @@ public class CEM {
 		String htmlMsg = "";
 		try {
 			htmlMsg = new CEM().arquivo("/mail/redefine-senha.html");
-			link = "http://187.105.49.186:8081/livros/resetsenha.jsp?code="+URLEncoder.encode(ticket.getTicketPass(), "UTF-8");
+			link = "http://187.105.35.16:8081/livros/resetsenha.jsp?code="+URLEncoder.encode(ticket.getTicketPass(), "UTF-8");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return;
