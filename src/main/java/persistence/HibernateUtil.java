@@ -8,7 +8,7 @@ public class HibernateUtil {
 	static {
 		try {
 			AnnotationConfiguration cfg = new AnnotationConfiguration().configure("mysql_hibernate.cfg.xml");
-			cfg.setProperty("hibernate.connection.url", System.getenv("CLEARDB_DATABASE_URL"));
+			cfg.setProperty("hibernate.connection.url", "jdbc:" + System.getenv("CLEARDB_DATABASE_URL"));
 			cfg.setProperty("hibernate.connection.username", "bf9fe421e4d5e0");
 			cfg.setProperty("hibernate.connection.password", System.getenv("DB_PASSWORD"));
 			sessionFactory = cfg.buildSessionFactory();
