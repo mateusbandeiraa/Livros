@@ -7,7 +7,11 @@ public class HibernateUtil {
 
 	static {
 		try {
-			sessionFactory = new AnnotationConfiguration().configure("mysql_hibernate.cfg.xml").buildSessionFactory();
+			AnnotationConfiguration cfg = new AnnotationConfiguration().configure("mysql_hibernate.cfg.xml");
+			cfg.setProperty("hibernate.connection.url", System.getenv("CLEARDB_DATABASE_URL"));
+			cfg.setProperty("hibernate.connection.username", "bf9fe421e4d5e0");
+			cfg.setProperty("hibernate.connection.password", System.getenv("DB_PASSWORD"));
+			sessionFactory = cfg.buildSessionFactory();
 		} catch (Throwable ex) {
 
 			System.err.println("Initial SessionFactory creation failed." + ex);
