@@ -26,7 +26,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<script type="text/javascript" src="/livros/js/scripts.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
 <!-- SELECT -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
@@ -37,7 +37,7 @@
 <!-- /SELECT -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
-<link rel="stylesheet" href="/livros/css/style.css">
+<link rel="stylesheet" href="css/style.css">
 <style>
 .modal .modal-dialog .modal-content {
 	background-color: #000;
@@ -141,7 +141,7 @@ $(document).ready(function(){
 							<span class="glyphicon glyphicon-remove" style="color: #eee"></span>
 						</button>
 
-						<img src="/livros/img/the_book_is_on_the_table.png">
+						<img src="img/the_book_is_on_the_table.png">
 					</div>
 				</div>
 			</div>

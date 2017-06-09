@@ -46,7 +46,7 @@
 					ticketCode : "${param.code}",
 					senhaUsuario : caixa1
 				}
-				$.post('/livros/Login', $.param(dados), function(response) {
+				$.post('Login', $.param(dados), function(response) {
 					$('#resp-serv-resc-senha').html(response);
 				});
 

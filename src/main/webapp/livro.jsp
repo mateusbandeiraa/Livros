@@ -43,11 +43,11 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<script type="text/javascript" src="/livros/js/scripts.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
-<link rel="stylesheet" href="/livros/css/style.css">
+<link rel="stylesheet" href="css/style.css">
 <style>
 .remove-com-btn {
 	cursor: pointer;
@@ -157,7 +157,7 @@
 										idComentario : id
 
 									};
-									$.post('/livros/Gravar', $.param(dados),
+									$.post('Gravar', $.param(dados),
 											function(response) {
 												location.reload();
 											});
@@ -200,7 +200,7 @@
 							<h5 style="text-align: center;">
 								(<%=strVotos%>)
 							</h5>
-							<form id="form-vote" action="/livros/Gravar?cmd=voto"
+							<form id="form-vote" action="Gravar?cmd=voto"
 								method="post">
 								<h4 class="rate-star">
 									<input type="hidden" id="userID" name="userID"> <input
@@ -288,7 +288,7 @@
 						<c:when test="${userID != null }">
 
 							<form class="horizontal-form" method="POST"
-								action="/livros/Gravar?cmd=comentario">
+								action="Gravar?cmd=comentario">
 								<input type="hidden" name="livroID" value="<%=l.getId()%>">
 								<input type="hidden" name="userID"
 									value="<%=session.getAttribute("userID")%>">

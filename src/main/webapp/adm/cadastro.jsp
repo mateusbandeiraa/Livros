@@ -16,7 +16,7 @@
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <link rel="stylesheet" href="css/style.css">
 
-<script type="text/javascript" src="/livros/js/scripts.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
@@ -24,14 +24,14 @@
 	autores = new AutorDao().findAll();
 %>
 <!-- FILE INPUT -->
-<link rel="stylesheet" href="/livros/file-upload/css/fileinput.min.css">
+<link rel="stylesheet" href="file-upload/css/fileinput.min.css">
 <script type="text/javascript"
-	src="/livros/file-upload/js/fileinput.min.js"></script>
+	src="file-upload/js/fileinput.min.js"></script>
 <script type="text/javascript"
-	src="/livros/file-upload/js/locales/pt-BR.js"></script>
+	src="file-upload/js/locales/pt-BR.js"></script>
 <!-- MASK -->
 <script type="text/javascript"
-	src="/livros/js/jquery.maskedinput.min.js"></script>
+	src="js/jquery.maskedinput.min.js"></script>
 <!-- SELECT -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
@@ -155,7 +155,7 @@
 					<p>${param['msgLivro']}
 						<%
 							if (request.getParameter("sucessoLivro") != null) {
-								out.print("<a href=\"/livros/livro.jsp?id=" + request.getParameter("idCriada")
+								out.print("<a href=\"livro.jsp?id=" + request.getParameter("idCriada")
 										+ "\">Acessar página do livro cadastrado</a>");
 							}
 						%>
@@ -217,7 +217,7 @@
 					<p>${param['msgAutor']}
 						<%
 							if (request.getParameter("sucessoAutor") != null) {
-								out.print("<a href=\"/livros/autor.jsp?id=" + request.getParameter("idCriada")
+								out.print("<a href=\"autor.jsp?id=" + request.getParameter("idCriada")
 										+ "\">Acessar página do autor cadastrado</a>");
 							}
 						%>

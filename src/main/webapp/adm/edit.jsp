@@ -42,7 +42,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-<script type="text/javascript" src="/livros/js/scripts.js"></script>
+<script type="text/javascript" src="js/scripts.js"></script>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t"%>
 <!-- SELECT -->
@@ -54,15 +54,15 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/i18n/defaults-*.min.js"></script>
 <!-- /SELECT -->
 <!-- FILE INPUT -->
-<link rel="stylesheet" href="/livros/file-upload/css/fileinput.min.css">
+<link rel="stylesheet" href="file-upload/css/fileinput.min.css">
 <script type="text/javascript"
-	src="/livros/file-upload/js/fileinput.min.js"></script>
+	src="file-upload/js/fileinput.min.js"></script>
 <script type="text/javascript"
-	src="/livros/file-upload/js/locales/pt-BR.js"></script>
+	src="file-upload/js/locales/pt-BR.js"></script>
 <!-- MASK -->
 <script type="text/javascript"
-	src="/livros/js/jquery.maskedinput.min.js"></script>
-<link rel="stylesheet" href="/livros/css/style.css">
+	src="js/jquery.maskedinput.min.js"></script>
+<link rel="stylesheet" href="css/style.css">
 <script>
 	$(document).ready(function() {
 		var max = 1500;
@@ -182,7 +182,7 @@
 							</div>
 						</form>
 						<div class="col-sm-4">
-							<form action="/livros/Gravar?cmd=deleteLivro&id=${param['id'] }"
+							<form action="Gravar?cmd=deleteLivro&id=${param['id'] }"
 								method="POST" id="form-apagar-livro">
 								<button type="button" class="btn btn-danger btn-block"
 									id="btn-apagar-livro">
@@ -202,7 +202,7 @@
 					</c:if>
 					<c:if test="${param['item'] == 'autor' }">
 						<form class="form-horizontal"
-							action="/livros/Gravar?cmd=editAutor" method="post"
+							action="Gravar?cmd=editAutor" method="post"
 							enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="idAutor" class="control-label col-sm-2">ID:</label>
@@ -265,7 +265,7 @@
 							</div>
 						</form>
 						<div class="col-sm-4">
-							<form action="/livros/Gravar?cmd=deleteAutor&id=${param['id'] }"
+							<form action="Gravar?cmd=deleteAutor&id=${param['id'] }"
 								method="POST" id="form-apagar-autor">
 								<button type="button" class="btn btn-danger btn-block"
 									id="btn-apagar-autor">
@@ -285,7 +285,7 @@
 					<c:if test="${param['item'] == 'usuario' }">
 
 						<form class="form-horizontal"
-							action="/livros/Gravar?cmd=editUsuario" method="post">
+							action="Gravar?cmd=editUsuario" method="post">
 							<div class="form-group">
 								<label for="idUsuario" class="control-label col-sm-2">ID:</label>
 								<div class="col-sm-10">
